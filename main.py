@@ -12,5 +12,5 @@ while game:
     maindisplay.fill((0, 134, 38))
     pygame.draw.rect(maindisplay, (255, 0, 0), (20, 120, 40, 150))
     pygame.display.update()
+
 pygame.quit()
-    
