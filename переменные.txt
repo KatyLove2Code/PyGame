@@ -17,4 +17,6 @@ make_jump=False
 go_right=False
 go_left=False    логические переменные для прыжка и бега
 
+event - событие(у меня нажатие стрелки и пробел)
+
 
