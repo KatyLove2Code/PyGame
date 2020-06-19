@@ -12,8 +12,8 @@ all_sprites = pygame.sprite.Group()
 
 
 class Spikes(pygame.sprite.Sprite):
-    def __init__(self, image_tuple, coords, spike_speed=0):
-        super().__init__(spike_group, all_sprites)
+    def __init__(self, image_tuple, group, coords, spike_speed=0):
+        super().__init__(group)
         self.image = scales_and_mirrors(image_tuple[0], image_tuple[1], image_tuple[2], image_tuple[3])
         self.rect = self.image.get_rect().move(coords)
         self.init_coord = coords  # spike position
@@ -55,14 +55,14 @@ class Spikes(pygame.sprite.Sprite):
 
 
 def run_cycle():  # a demonstration
-    spike = Spikes(("Spikes_CD.png", 50, 50, False), (150, 150), 150)
+    spike = Spikes(("Spikes_CD.png", 50, 50, False), spike_group, (150, 150), 150)
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
         screen.fill(pygame.Color(0, 0, 0))
-        pygame.draw.rect(screen, (255, 0, 0), (120, 200, 250, 140))
+        pygame.draw.rect(screen, (255, 0, 0), (120, 200, 250, 140))  # a "platform" for spike demonstration
         spike.update()
         spike_group.draw(screen)
         pygame.display.flip()
