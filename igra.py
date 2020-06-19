@@ -39,11 +39,28 @@ level = [
        "-                       -",
        "-------------------------"]
 
+
 def main():
     screen = pygame.display.set_mode(display)
     pygame.display.set_caption("utra_game")
     bg = Surface((wight, height))  # Создание видимой поверхности для фона
     bg.fill(Color(bg_color))  # Заливаем поверхность
+    hero = Player(55, 55)  # создаем героя по x,y координатам
+    left = right = up = False  # по умолчанию стоим
+
+    # bg = pygame.Surface((wight, height))
+    # bg.fill(pygame.Color(bg_color))
+    x = y = 0
+    for row in level:
+        for col in row:
+            if col == "-":
+                # создаем блок, заливаем его цветом и рисеум его
+                pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
+                pf.fill(pygame.Color(PLATFORM_COLOR))
+                screen.blit(pf, (x, y))
+            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
+        y += PLATFORM_HEIGHT  # то же самое и с высотой
+        x = 0  # на каждой новой строчке начинаем с нуля
 
     while 1:  # Основной цикл программы
         for event in pygame.event.get():  # Обрабатываем события
@@ -64,29 +81,12 @@ def main():
             if event.type == KEYUP and event.key == K_LEFT:
                 left = False
 
-        hero = Player(55, 55)  # создаем героя по x,y координатам
-        left = right = up = False  # по умолчанию стоим
-
-        bg = pygame.Surface((wight, height))
-        bg.fill(pygame.Color(bg_color))
-        x = y = 0
-        for row in level:
-            for col in row:
-                if col == "-":
-                    # создаем блок, заливаем его цветом и рисеум его
-                    pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-                    pf.fill(pygame.Color(PLATFORM_COLOR))
-                    screen.blit(pf, (x, y))
-                x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
-            y += PLATFORM_HEIGHT  # то же самое и с высотой
-            x = 0  # на каждой новой строчке начинаем с нуля
-
-        pygame.display.update()# обновление и вывод всех изменений на экран(вот хз, скорее всего ошибка тут, но это не точно)
-
-        hero.update(left, right, up)  # передвижение (ну или тут ошибка)
         hero.draw(screen)  # отображение (здесь тоже возможно)
+        hero.update(left, right, up)  # передвижение (ну или тут ошибка)
+        pygame.display.flip()  # обновление и вывод всех изменений на экран(вот хз, скорее всего ошибка тут, но это не точно)
 
         fps.tick(60)
+
 
 if __name__ == "__main__":
     main()
