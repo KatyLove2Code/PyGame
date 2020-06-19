@@ -14,8 +14,8 @@ GRAVITY = 0.5  # величина гравитации
 
 
 class Player(sprite.Sprite):
-    def __init__(self, x, y):
-        sprite.Sprite.__init__(self)
+    def __init__(self, group, x, y):
+        super().__init__(group)
         self.xvel = 0  # скорость бега
         self.startX = x  # Начальная позиция Х и Y
         self.startY = y
@@ -46,5 +46,5 @@ class Player(sprite.Sprite):
         self.rect.y += self.yvel
         self.rect.x += self.xvel  # переносим свои положение на xvel
 
-    def draw(self, screen):  # Выводим себя на экран
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+    '''def draw(self, screen):  # Выводим себя на экран
+        screen.blit(self.image, (self.rect.x, self.rect.y))'''

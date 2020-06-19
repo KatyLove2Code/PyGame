@@ -17,6 +17,7 @@ PLATFORM_WIDTH = 32
 PLATFORM_HEIGHT = 32
 PLATFORM_COLOR = "#ffffff"
 fps=pygame.time.Clock()
+player_group = pygame.sprite.Group()  # умоляю, пользуйтесь спрайт группами!
 level = [
        "-------------------------",
        "-                       -",
@@ -45,7 +46,7 @@ def main():
     pygame.display.set_caption("utra_game")
     bg = Surface((wight, height))  # Создание видимой поверхности для фона
     bg.fill(Color(bg_color))  # Заливаем поверхность
-    hero = Player(55, 55)  # создаем героя по x,y координатам
+    hero = Player(player_group, 55, 55)  # создаем героя по x,y координатам
     left = right = up = False  # по умолчанию стоим
 
     # bg = pygame.Surface((wight, height))
@@ -81,7 +82,8 @@ def main():
             if event.type == KEYUP and event.key == K_LEFT:
                 left = False
 
-        hero.draw(screen)  # скорее всего, игрок оставляет след из-за этого
+        screen.fill(pygame.Color("black"))  # специально для обновления экрана
+        player_group.draw(screen)
         hero.update(left, right, up)  # передвижение
         pygame.display.flip()  # обновление и вывод всех изменений на экран
 
