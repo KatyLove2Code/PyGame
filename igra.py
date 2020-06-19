@@ -9,7 +9,7 @@ from player import Player #импорт грока и файла
 
 
 # Объявляем переменные
-wight = 800  # Ширина окна
+wight = 800  # Ширина окна (это пишется, как "width", друг мой)
 height = 640  # Высота окна
 display = (wight, height)
 bg_color = "#000000"
@@ -81,9 +81,9 @@ def main():
             if event.type == KEYUP and event.key == K_LEFT:
                 left = False
 
-        hero.draw(screen)  # отображение (здесь тоже возможно)
-        hero.update(left, right, up)  # передвижение (ну или тут ошибка)
-        pygame.display.flip()  # обновление и вывод всех изменений на экран(вот хз, скорее всего ошибка тут, но это не точно)
+        hero.draw(screen)  # скорее всего, игрок оставляет след из-за этого
+        hero.update(left, right, up)  # передвижение
+        pygame.display.flip()  # обновление и вывод всех изменений на экран
 
         fps.tick(60)
 
