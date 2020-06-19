@@ -16,13 +16,13 @@ class Spikes(pygame.sprite.Sprite):
         super().__init__(spike_group, all_sprites)
         self.image = scales_and_mirrors(image_tuple[0], image_tuple[1], image_tuple[2], image_tuple[3])
         self.rect = self.image.get_rect().move(coords)
-        self.init_coord = coords
-        self.spike_speed = spike_speed
-        self.spikes_out = True
+        self.init_coord = coords  # spike position
+        self.spike_speed = spike_speed  # it would be more appropriate to name it "spike slowness"
+        self.spikes_out = True  # the state of the spikes
         self.spike_counter = spike_speed
         self.spike_anim_timer = 0
 
-    def retract(self):
+    def retract(self):  # haha spike go down
         self.rect.y += int(self.rect.width / 3)
         self.spike_anim_timer += 1
         if self.spike_anim_timer == 3 and self.rect.y != self.init_coord[1] + self.rect.width:
@@ -31,7 +31,7 @@ class Spikes(pygame.sprite.Sprite):
         elif self.spike_anim_timer == 3:
             self.spikes_out = False
 
-    def pop_out(self):
+    def pop_out(self):  # haha spike go up
         self.rect.y -= int(self.rect.width / 3)
         self.spike_anim_timer += 1
         if self.spike_anim_timer == 3 and self.rect.y != self.init_coord[1]:
@@ -54,7 +54,7 @@ class Spikes(pygame.sprite.Sprite):
                     self.spike_anim_timer = 0
 
 
-def run_cycle():
+def run_cycle():  # a demonstration
     spike = Spikes(("Spikes_CD.png", 50, 50, False), (150, 150), 150)
     running = True
     while running:
