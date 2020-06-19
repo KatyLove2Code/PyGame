@@ -62,9 +62,9 @@ def run_cycle():  # a demonstration
             if event.type == pygame.QUIT:
                 running = False
         screen.fill(pygame.Color(0, 0, 0))
+        spike.update()  # you can put and the next line after the platform
+        spike_group.draw(screen)  # to see what happens
         pygame.draw.rect(screen, (255, 0, 0), (120, 200, 250, 140))  # a "platform" for spike demonstration
-        spike.update()
-        spike_group.draw(screen)
         pygame.display.flip()
         clock.tick(FPS)
 
