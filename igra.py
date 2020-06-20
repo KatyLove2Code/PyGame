@@ -5,7 +5,8 @@
 import pygame
 from pygame import *
 pygame.init()
-from player import Player #импорт грока и файла
+from player import Player  # импорт грока и файла
+from scratch_29 import Platform
 
 
 # Объявляем переменные
@@ -18,6 +19,7 @@ PLATFORM_HEIGHT = 32
 PLATFORM_COLOR = "#ffffff"
 fps=pygame.time.Clock()
 player_group = pygame.sprite.Group()  # умоляю, пользуйтесь спрайт группами!
+platform_group = pygame.sprite.Group()
 level = [
        "-------------------------",
        "-                       -",
@@ -56,6 +58,7 @@ def main():
     for row in level:
         for col in row:
             if col == "-":
+                platform = Platform(platform_group, x, y)
                 # создаем блок, заливаем его цветом и рисеум его
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                 pf.fill(pygame.Color(PLATFORM_COLOR))
@@ -96,6 +99,7 @@ def main():
             y += PLATFORM_HEIGHT  # то же самое и с высотой
             x = 0  # на каждой новой строчке начинаем с нуля
         player_group.draw(screen)
+        platform_group.draw(screen)
         hero.update(left, right, up)  # передвижение
         pygame.display.flip()  # обновление и вывод всех изменений на экран
 
