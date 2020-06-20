@@ -11,8 +11,8 @@ Rect = bg.get_rect()
 
 
 class Platform(sprite.Sprite):
-    def __init__(self, group, plat_type, x, y):
-        super().__init__(group)
+    def __init__(self, groups, plat_type, x, y):
+        super().__init__(groups[0], groups[1])
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
         if plat_type == "-":
             self.image.fill(Color("#123456"))
