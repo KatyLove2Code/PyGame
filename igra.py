@@ -6,24 +6,29 @@ import pygame
 from pygame import *
 from player import Player  # импорт грока и файла
 from scratch_29 import Platform
+from camera import Camera
 pygame.init()
 
 
 # Объявляем переменные
-wight = 800  # Ширина окна (это пишется, как "width", друг мой)
+width = 800  # Ширина окна
 height = 640  # Высота окна
-display = (wight, height)
+display = (width, height)
 bg_color = "#000000"
 PLATFORM_WIDTH = 32
 PLATFORM_HEIGHT = 32
 PLATFORM_COLOR = "#ffffff"
 fps=pygame.time.Clock()
+
+all_sprites = pygame.sprite.Group()
 player_group = pygame.sprite.Group()  # умоляю, пользуйтесь спрайт группами!
 platform_group = pygame.sprite.Group()
 spike_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
+deco_group = pygame.sprite.Group()
+
 level = [
        "-------------------------",
        "-x                      -",
@@ -85,7 +90,9 @@ level_2 = ["----------------------------------------------------------------",
 
 
 def draw_sprites(screen):
+    all_sprites.draw(screen)
     player_group.draw(screen)
+    deco_group.draw(screen)
     platform_group.draw(screen)
     spike_group.draw(screen)
     enemy_group.draw(screen)
@@ -95,8 +102,8 @@ def draw_sprites(screen):
 
 def main():
     screen = pygame.display.set_mode(display)
-    pygame.display.set_caption("utra_game")
-    bg = Surface((wight, height))  # Создание видимой поверхности для фона
+    pygame.display.set_caption("ultra_game")
+    bg = Surface((width, height))  # Создание видимой поверхности для фона
     bg.fill(Color(bg_color))  # Заливаем поверхность
     left = right = up = False  # по умолчанию стоим
     # bg = pygame.Surface((wight, height))
@@ -105,36 +112,37 @@ def main():
     for row in level_2:
         for col in row:
             if col == "-":
-                platform = Platform(platform_group, col, x, y)
+                platform = Platform((platform_group, all_sprites), col, x, y)
                 # создаем блок, заливаем его цветом и рисеум его
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                 pf.fill(pygame.Color(PLATFORM_COLOR))
                 screen.blit(pf, (x, y))
             elif col == "1":
-                platform = Platform(spike_group, col, x, y)
+                platform = Platform((spike_group, all_sprites), col, x, y)
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                 pf.fill(pygame.Color(PLATFORM_COLOR))
                 screen.blit(pf, (x, y))
             elif col == "2":
-                platform = Platform(enemy_group, col, x, y)
+                platform = Platform((enemy_group, all_sprites), col, x, y)
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                 pf.fill(pygame.Color(PLATFORM_COLOR))
                 screen.blit(pf, (x, y))
             elif col == "3":
-                platform = Platform(treasure_group, col, x, y)
+                platform = Platform((treasure_group, all_sprites), col, x, y)
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                 pf.fill(pygame.Color(PLATFORM_COLOR))
                 screen.blit(pf, (x, y))
             elif col == "5":
-                platform = Platform(lever_group, col, x, y)
+                platform = Platform((lever_group, all_sprites), col, x, y)
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                 pf.fill(pygame.Color(PLATFORM_COLOR))
                 screen.blit(pf, (x, y))
             elif col == "x":
-                hero = Player(player_group, x, y)  # создаем героя по x,y координатам
+                hero = Player((player_group, all_sprites), x, y)  # создаем героя по x,y координатам
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
         y += PLATFORM_HEIGHT  # то же самое и с высотой
         x = 0  # на каждой новой строчке начинаем с нуля
+    camera = Camera((len(level_2[0]), len(level_2)), width, height)
     while 1:  # Основной цикл программы
         for event in pygame.event.get():  # Обрабатываем события
             if event.type == QUIT:
@@ -156,18 +164,22 @@ def main():
 
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         x = y = 0
-        for row in level_2:
+        '''for row in level_2:
             for col in row:
                 if col == "-":
                     # создаем блок, заливаем его цветом и рисеум его
+                    platform = Platform((deco_group, all_sprites), col, x, y)
                     pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                     pf.fill(pygame.Color(PLATFORM_COLOR))
                     screen.blit(pf, (x, y))
                 x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
             y += PLATFORM_HEIGHT  # то же самое и с высотой
-            x = 0  # на каждой новой строчке начинаем с нуля
+            x = 0  # на каждой новой строчке начинаем с нуля'''
         draw_sprites(screen)
         hero.update(left, right, up)  # передвижение
+        camera.update(hero)
+        for sprite in all_sprites:
+            camera.apply(sprite)
         pygame.display.flip()  # обновление и вывод всех изменений на экран
 
         fps.tick(60)
