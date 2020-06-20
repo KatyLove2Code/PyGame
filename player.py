@@ -31,10 +31,10 @@ class Player(sprite.Sprite):
                 self.yvel = -JUMP_POWER
 
         if left==True:
-            self.xvel -= speed  # Лево = x- n
+            self.xvel = -speed  # Лево = x- n
 
         if right==True:
-            self.xvel += speed # Право = x + n
+            self.xvel = speed # Право = x + n
 
         if  (left==False and right==False):  # стоим, когда нет указаний идти
             self.xvel = 0
