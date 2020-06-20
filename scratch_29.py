@@ -14,7 +14,7 @@ class Platform(sprite.Sprite):
     def __init__(self, group, x, y):
         super().__init__(group)
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-        self.image.fill(Color("#654321"))
+        self.image.fill(Color("#123456"))
         self.rect = self.image.get_rect().move(x, y)
 
 
