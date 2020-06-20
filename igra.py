@@ -26,7 +26,7 @@ treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
 level = [
        "-------------------------",
-       "-                       -",
+       "-x                      -",
        "-         ----          -",
        "-                       -",
        "-            --         -",
