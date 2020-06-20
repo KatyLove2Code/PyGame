@@ -11,11 +11,11 @@ Rect = bg.get_rect()
 
 
 class Platform(sprite.Sprite):
-    def __init__(self, x, y):
-        sprite.Sprite.__init__(self)
+    def __init__(self, group, x, y):
+        super().__init__(group)
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
         self.image.fill(Color("#654321"))
-        self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+        self.rect = self.image.get_rect().move(x, y)
 
 
 level = [
