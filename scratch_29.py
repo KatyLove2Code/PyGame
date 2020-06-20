@@ -1,5 +1,4 @@
 from pygame import *
-from pyrect import Rect
 
 WIN_WIDTH = 1920
 WIN_HEIGHT = 1080
@@ -7,7 +6,8 @@ BACKGROUND_COLOR = "#FFFFFF"
 PLATFORM_WIDTH = 30
 PLATFORM_HEIGHT = 30
 PLATFORM_COLOR = "#654321"
-
+bg = Surface((WIN_WIDTH, WIN_HEIGHT))
+Rect = bg.get_rect()
 
 class Platform(sprite.Sprite):
     def __init__(self, x, y):
