@@ -14,7 +14,7 @@ GRAVITY = 0.5  # величина гравитации
 
 
 class Player(sprite.Sprite):
-    def __init__(self, groups, x, y):
+    def __init__(self, groups, x, y, collide_with):
         super().__init__(groups[0], groups[1])
         self.xvel = 0  # скорость бега
         self.startX = x  # Начальная позиция Х и Y
@@ -24,25 +24,34 @@ class Player(sprite.Sprite):
         self.rect = Rect(x, y, gg_wight, gg_height)  # прямоугольный объект(герой)
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # стою на земле или нет
+        self.collide_with = collide_with  # группы, с которыми игрок может взаимодействовать
 
     def update(self, left, right, up):
         if up:
             if self.onGround:  # прыгаем только когда можем оттолкнуться от земли(потом сделаю двойной прыжок(как-хз пока что))
                 self.yvel = -JUMP_POWER
+                self.onGround = False
 
-        if left==True:
+        if left is True:
             self.xvel = -speed  # Лево = x- n
 
-        if right==True:
-            self.xvel = speed # Право = x + n
+        if right is True:
+            self.xvel = speed  # Право = x + n
 
-        if  (left==False and right==False):  # стоим, когда нет указаний идти
+        if left is False and right is False:  # стоим, когда нет указаний идти
             self.xvel = 0
+            if self.onGround is True:
+                self.yvel = 0
 
         if not self.onGround:
             self.yvel += GRAVITY
 
-        self.onGround = False;  # Мы не знаем, когда мы на земле
+        if sprite.spritecollideany(self, self.collide_with[0]) is not None:
+            self.onGround = True
+        else:
+            self.onGround = False
+
+        # self.onGround = False;  # Мы не знаем, когда мы на земле
         self.rect.y += self.yvel
         self.rect.x += self.xvel  # переносим свои положение на xvel
 

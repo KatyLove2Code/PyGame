@@ -138,7 +138,7 @@ def main():
                 pf.fill(pygame.Color(PLATFORM_COLOR))
                 screen.blit(pf, (x, y))
             elif col == "x":
-                hero = Player((player_group, all_sprites), x, y)  # создаем героя по x,y координатам
+                hero = Player((player_group, all_sprites), x, y, [platform_group])  # создаем героя по x,y координатам
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
         y += PLATFORM_HEIGHT  # то же самое и с высотой
         x = 0  # на каждой новой строчке начинаем с нуля
