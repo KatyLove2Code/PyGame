@@ -4,9 +4,9 @@
 """
 import pygame
 from pygame import *
-pygame.init()
 from player import Player  # импорт грока и файла
 from scratch_29 import Platform
+pygame.init()
 
 
 # Объявляем переменные
