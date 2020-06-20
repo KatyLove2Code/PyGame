@@ -51,6 +51,7 @@ def main():
 
     # bg = pygame.Surface((wight, height))
     # bg.fill(pygame.Color(bg_color))
+    """    так, это перенесоно вниз, уровень рисует, теперь нужно вместо простого рисование создать объекты
     x = y = 0
     for row in level:
         for col in row:
@@ -62,7 +63,7 @@ def main():
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
         y += PLATFORM_HEIGHT  # то же самое и с высотой
         x = 0  # на каждой новой строчке начинаем с нуля
-
+    """
     while 1:  # Основной цикл программы
         for event in pygame.event.get():  # Обрабатываем события
             if event.type == QUIT:
@@ -83,6 +84,17 @@ def main():
                 left = False
 
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
+        x = y = 0
+        for row in level:
+            for col in row:
+                if col == "-":
+                    # создаем блок, заливаем его цветом и рисеум его
+                    pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
+                    pf.fill(pygame.Color(PLATFORM_COLOR))
+                    screen.blit(pf, (x, y))
+                x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
+            y += PLATFORM_HEIGHT  # то же самое и с высотой
+            x = 0  # на каждой новой строчке начинаем с нуля
         player_group.draw(screen)
         hero.update(left, right, up)  # передвижение
         pygame.display.flip()  # обновление и вывод всех изменений на экран
