@@ -11,15 +11,24 @@ Rect = bg.get_rect()
 
 
 class Platform(sprite.Sprite):
-    def __init__(self, x, y):
-        sprite.Sprite.__init__(self)
+    def __init__(self, group, plat_type, x, y):
+        super().__init__(group)
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-
-        self.image.fill(Color("#654321"))
-        self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-
-        self.image.fill(Color("#123456"))
-        self.rect = self.image.get_rect().move(x, y)
+        if plat_type == "-":
+            self.image.fill(Color("#123456"))
+            self.rect = self.image.get_rect().move(x, y)
+        elif plat_type == "1":
+            self.image.fill(Color("#654321"))
+            self.rect = self.image.get_rect().move(x, y)
+        elif plat_type == "2":
+            self.image.fill(Color("#011032"))
+            self.rect = self.image.get_rect().move(x, y)
+        elif plat_type == "3":
+            self.image.fill(Color("#555353"))
+            self.rect = self.image.get_rect().move(x, y)
+        elif plat_type == "5":
+            self.image.fill(Color("#125364"))
+            self.rect = self.image.get_rect().move(x, y)
 
 
 
