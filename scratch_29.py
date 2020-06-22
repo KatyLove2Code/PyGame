@@ -13,6 +13,8 @@ PLATFORM_COLOR = "#000000"
 bg = Surface((WIN_WIDTH, WIN_HEIGHT))
 Rect = bg.get_rect()
 
+SPIKES = "1" #шипы
+
 
 class Platform(sprite.Sprite):
     def __init__(self, groups, plat_type, x, y):
@@ -21,7 +23,7 @@ class Platform(sprite.Sprite):
         if plat_type == "-":
             self.image.fill(Color("#123456"))
             self.rect = self.image.get_rect().move(x, y)
-        elif plat_type == "1":
+        elif plat_type == SPIKES:
             self.image.fill(Color("#654321"))
             self.rect = self.image.get_rect().move(x, y)
         elif plat_type == "2":
@@ -33,6 +35,7 @@ class Platform(sprite.Sprite):
         elif plat_type == "5":
             self.image.fill(Color("#125364"))
             self.rect = self.image.get_rect().move(x, y)
+
 
 
 

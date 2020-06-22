@@ -11,23 +11,25 @@ from camera import Camera
 pygame.init()
 
 # Объявляем переменные
-width = 800  # Ширина окна
-height = 640  # Высота окна
-display = (width, height)
+W = 800  # Ширина окна
+H = 640  # Высота окна
+display = (W, H)
 bg_color = "#000000"
-PLATFORM_WIDTH = 32
-PLATFORM_HEIGHT = 32
+
+#Почему это тут, а не в платформе
+PLATFORM_WIDTH = 30
+PLATFORM_HEIGHT = 30
 PLATFORM_COLOR = "#ffffff"
 fps = pygame.time.Clock()
 
 all_sprites = pygame.sprite.Group()
 player_group = pygame.sprite.Group()  # умоляю, пользуйтесь спрайт группами!
-platform_group = pygame.sprite.Group()
+platform_group = pygame.sprite.LayeredUpdates() #https://www.pygame.org/docs/ref/sprite.html#pygame.sprite.LayeredUpdates
 spike_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
-deco_group = pygame.sprite.Group()
+deco_group = pygame.sprite.Group() #
 
 level = [
     "-------------------------",
@@ -91,6 +93,7 @@ level_2 = ["----------------------------------------------------------------",
 
 def draw_sprites(screen):
     all_sprites.draw(screen)
+    ## Зачем все остальные, если есть all
     player_group.draw(screen)
     deco_group.draw(screen)
     platform_group.draw(screen)
@@ -99,11 +102,17 @@ def draw_sprites(screen):
     treasure_group.draw(screen)
     lever_group.draw(screen)
 
+def draw_level(number_of_level):
+    pass
+    #Отрисовка уровня и создание платформ и спрайтов отдельной функцией или классом
+    #ПРИ ПРОИГРЫШЕ МОЖНО УБИТЬ ОСТАВШХСЯ МОБОВ ВОИЗБЕЖАНИЕ ДУБЛИРОВАНИЯ
+    #mob.kill() - убъёт спрайт во всех группах
+
 
 def main():
     screen = pygame.display.set_mode(display)
     pygame.display.set_caption("ultra_game")
-    bg = Surface((width, height))  # Создание видимой поверхности для фона
+    bg = Surface((W, H))  # Создание видимой поверхности для фона
     bg.fill(Color(bg_color))  # Заливаем поверхность
     left = right = up = False  # по умолчанию стоим
     # bg = pygame.Surface((wight, height))
@@ -114,9 +123,10 @@ def main():
             if col == "-":
                 platform = Platform((platform_group, all_sprites), col, x, y)
                 # создаем блок, заливаем его цветом и рисеум его
+                """
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                 pf.fill(pygame.Color(PLATFORM_COLOR))
-                screen.blit(pf, (x, y))
+                screen.blit(pf, (x, y))"""
             elif col == "1":
                 platform = Platform((spike_group, all_sprites), col, x, y)
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
@@ -142,18 +152,19 @@ def main():
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
         y += PLATFORM_HEIGHT  # то же самое и с высотой
         x = 0  # на каждой новой строчке начинаем с нуля
-    camera = Camera((len(level_2[0]), len(level_2)), width, height)
+    camera = Camera((len(level_2[0]), len(level_2)), W, H)
     while 1:  # Основной цикл программы
         for event in pygame.event.get():  # Обрабатываем события
             if event.type == QUIT:
                 pygame.quit()
                 quit()
-            if event.type == KEYDOWN and event.key == K_LEFT:
-                left = True
-            if event.type == KEYDOWN and event.key == K_RIGHT:
-                right = True
-            if event.type == KEYDOWN and event.key == K_SPACE:
-                up = True
+            if event.type == KEYDOWN:
+                if  event.key == K_LEFT:
+                    left = True
+                if  event.key == K_RIGHT:
+                    right = True
+                if  event.key == K_SPACE:
+                    up = True
 
             if event.type == KEYUP and event.key == K_SPACE:
                 up = False
@@ -176,11 +187,13 @@ def main():
             y += PLATFORM_HEIGHT  # то же самое и с высотой
             x = 0  # на каждой новой строчке начинаем с нуля'''
         draw_sprites(screen)
-        hero.update(left, right, up)  # передвижение
+
+        hero.check_collide(platform_group)
+        hero.update()  # передвижение
         camera.update(hero)
         for sprite in all_sprites:
             camera.apply(sprite)
-        pygame.display.flip()  # обновление и вывод всех изменений на экран
+        pygame.display.update()  # обновление и вывод всех изменений на экран
 
         fps.tick(60)
 
