@@ -4,7 +4,7 @@
 """
 
 from pygame import *
-pygame.init()
+init()
 speed = 7
 gg_wight = 30
 gg_height = 50
