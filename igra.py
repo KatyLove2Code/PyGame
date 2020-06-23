@@ -30,14 +30,6 @@ deco_group = pygame.sprite.Group() #
 
 def draw_sprites(screen):
     all_sprites.draw(screen)
-    ## Зачем все остальные, если есть all
-    player_group.draw(screen)
-    deco_group.draw(screen)
-    platform_group.draw(screen)
-    spike_group.draw(screen)
-    enemy_group.draw(screen)
-    treasure_group.draw(screen)
-    lever_group.draw(screen)
 
 def draw_level(number_of_level):
     pass
@@ -95,7 +87,7 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 quit()
-            if event.type == KEYDOWN:
+            '''if event.type == KEYDOWN:
                 if  event.key == K_LEFT:
                     left = True
                 if  event.key == K_RIGHT:
@@ -108,21 +100,10 @@ def main():
             if event.type == KEYUP and event.key == K_RIGHT:
                 right = False
             if event.type == KEYUP and event.key == K_LEFT:
-                left = False
+                left = False'''
 
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         x = y = 0
-        '''for row in level_2:
-            for col in row:
-                if col == "-":
-                    # создаем блок, заливаем его цветом и рисеум его
-                    platform = Platform((deco_group, all_sprites), col, x, y)
-                    pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-                    pf.fill(pygame.Color(PLATFORM_COLOR))
-                    screen.blit(pf, (x, y))
-                x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
-            y += PLATFORM_HEIGHT  # то же самое и с высотой
-            x = 0  # на каждой новой строчке начинаем с нуля'''
         draw_sprites(screen)
 
         hero.check_collide(platform_group)
