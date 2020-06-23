@@ -87,21 +87,6 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 quit()
-            '''if event.type == KEYDOWN:
-                if  event.key == K_LEFT:
-                    left = True
-                if  event.key == K_RIGHT:
-                    right = True
-                if  event.key == K_SPACE:
-                    up = True
-
-            if event.type == KEYUP and event.key == K_SPACE:
-                up = False
-            if event.type == KEYUP and event.key == K_RIGHT:
-                right = False
-            if event.type == KEYUP and event.key == K_LEFT:
-                left = False'''
-
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         x = y = 0
         draw_sprites(screen)
