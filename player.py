@@ -4,10 +4,10 @@
 """
 
 from pygame import *
-init()
+pygame.init()
 speed = 7
-gg_wight=30
-gg_height= 50
+gg_wight = 30
+gg_height = 50
 COLOR = "#888888"
 JUMP_POWER = 10
 GRAVITY = 0.5  # величина гравитации
@@ -22,8 +22,8 @@ class Player(sprite.Sprite):
         self.image = Surface((gg_wight, gg_height))
         self.image.fill(Color(COLOR))
         self.rect = self.image.get_rect()  # прямоугольный объект(герой)
-        self.rect.x =  self.startX
-        self.rect.y =  self.startY
+        self.rect.x = self.startX
+        self.rect.y = self.startY
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # стою на земле или нет
         self.collide_with = collide_with  # группы, с которыми игрок может взаимодействовать
