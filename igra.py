@@ -5,7 +5,7 @@
 import pygame
 from pygame import *
 from player import Player  # импорт грока и файла
-from scratch_29 import Platform
+from scratch_29 import *
 from camera import Camera
 from levels import level_2, level
 
@@ -17,10 +17,6 @@ H = 640  # Высота окна
 display = (W, H)
 bg_color = "#000000"
 
-#Почему это тут, а не в платформе
-PLATFORM_WIDTH = 30
-PLATFORM_HEIGHT = 30
-PLATFORM_COLOR = "#ffffff"
 fps = pygame.time.Clock()
 
 all_sprites = pygame.sprite.Group()
