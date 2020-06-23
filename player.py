@@ -45,7 +45,7 @@ class Player(sprite.Sprite):
             if self.onGround:
                 self.yvel = 0"""
         #ПРЫЖОК
-        if keys[K_UP]:
+        if keys[K_SPACE]:
             if self.onGround:  # прыгаем только когда можем оттолкнуться от земли(потом сделаю двойной прыжок(как-хз пока что))
                 self.yvel = -JUMP_POWER
                 self.onGround = False
