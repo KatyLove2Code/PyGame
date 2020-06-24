@@ -13,6 +13,9 @@ PLATFORM_COLOR = "#000000"
 bg = Surface((WIN_WIDTH, WIN_HEIGHT))
 Rect = bg.get_rect()
 
+
+
+
 SPIKES = "1" #шипы
 MOBS = "2" #мобы
 TREASURE = "3" #сокровище
@@ -22,18 +25,23 @@ class Platform(sprite.Sprite):
     def __init__(self, groups, plat_type, x, y):
         super().__init__(groups[0], groups[1])
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
+        self.rect = self.image.get_rect().move(x, y)
+
         if plat_type == "-":
-            self.image.fill(Color("#123456"))
-            self.rect = self.image.get_rect().move(x, y)
+            color = Color("#123456")
+
         elif plat_type == SPIKES:
-            self.image.fill(Color("#654321"))
-            self.rect = self.image.get_rect().move(x, y)
+            color = Color("#654321")
+
         elif plat_type == "2":
-            self.image.fill(Color("#011032"))
-            self.rect = self.image.get_rect().move(x, y)
+            color = Color("#011032")
+
         elif plat_type == "3":
-            self.image.fill(Color("#555353"))
-            self.rect = self.image.get_rect().move(x, y)
+            color = Color("#555353")
+
         elif plat_type == "5":
-            self.image.fill(Color("#125364"))
-            self.rect = self.image.get_rect().move(x, y)
+            color = Color("#125364")
+        else:
+            color = (255, 0, 255) #Если попался случайно не тот символ, то он подкрасится
+
+        self.image.fill(color)

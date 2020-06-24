@@ -4,9 +4,9 @@
 """
 import pygame
 from pygame import *
-from player import Player  # импорт грока и файла
-from scratch_29 import *
-from camera import Camera
+from classPlayer import Player  # импорт грока и файла
+from classPlatform import *
+from classCamera import Camera
 from levels import level_2, level
 
 pygame.init()
@@ -27,6 +27,9 @@ enemy_group = pygame.sprite.Group()
 treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
 deco_group = pygame.sprite.Group() #
+
+
+pygame.time.set_timer(pygame.USEREVENT, 3000) #Событие будет генерироваться раз в 3 секунды
 
 def draw_sprites(screen):
     all_sprites.draw(screen)
@@ -87,6 +90,9 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 quit()
+
+            if event.type == pygame.USEREVENT:
+                hero.damage()
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         x = y = 0
         draw_sprites(screen)

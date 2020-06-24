@@ -4,7 +4,7 @@
 """
 
 from pygame import *
-init()
+
 speed = 7
 gg_wight = 30
 gg_height = 50
@@ -27,9 +27,14 @@ class Player(sprite.Sprite):
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # стою на земле или нет
         self.collide_with = collide_with  # группы, с которыми игрок может взаимодействовать
+        self.health = 120 #Здоровье
+
 
     def update(self):
         keys = key.get_pressed()
+
+        self.image.fill(Color(COLOR))
+        draw.rect(self.image, (255, 0, 0), (0,0, self.health//4, 5))
 
 
        #ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
@@ -41,9 +46,7 @@ class Player(sprite.Sprite):
 
         else :  # стоим, когда нет указаний идти
             self.xvel = 0
-            """
-            if self.onGround:
-                self.yvel = 0"""
+
         #ПРЫЖОК
         if keys[K_SPACE]:
             if self.onGround:  # прыгаем только когда можем оттолкнуться от земли(потом сделаю двойной прыжок(как-хз пока что))
@@ -56,44 +59,51 @@ class Player(sprite.Sprite):
         else:
             self.yvel = 0
 
-        print(self.yvel )
-        #ПРОВЕРКА СТОЛКНОВЕНИЙ
-
-
-
-
-
-
-
         # self.onGround = False;  # Мы не знаем, когда мы на земле
         self.rect.y += self.yvel
         self.rect.x += self.xvel  # переносим свои положение на xvel
 
 
-
+    #ПРОВЕРКА СТОЛКНОВЕНИЙ
     def check_collide(self, platforms):
-        #Проверяем столкновения с платформами
 
-        if sprite.spritecollideany(self, self.collide_with[0]) is not None: #Столкнулся с чем-то, нужно проверить с чем или кем(мобы)
-
-            if len(platforms.get_sprites_at(self.rect.midbottom)) != 0:  #если середина низа пересекается с платформой, то на земле
+        # if sprite.spritecollideany(self, self.collide_with[0]) is not None: #Столкнулся с чем-то, нужно проверить с чем или кем(мобы)
+        #
+        #       if len(platforms.get_sprites_at(self.rect.midbottom)) != 0:  #если середина низа пересекается с платформой, то на земле
+        #           self.onGround = True
+        #       else:
+        #           self.onGround = False        #
+        #
+        # else:  #мы падаем
+        #      self.onGround = False
+        #
+        # КОД НЕ АКТУАЛЕН, НИЖЕ РАСШИРЕННАЯ ПРОВЕРКА
+        self.onGround = False #По умолчанию считаем, что падает, пока не докажет обратное
+         #Проверяем столкновения с платформами
+        for p in platforms:
+            playerRange = set(range(self.rect.left, self.rect.right))
+            platformRange = set(range(p.rect.left, p.rect.right))
+            intersect = playerRange & platformRange ##https://pythonworld.ru/tipy-dannyx-v-python/mnozhestva-set-i-frozenset.html
+            if self.rect.bottom == p.rect.top and len(intersect) != 0:
                 self.onGround = True
-            else:
-                self.onGround = False
+
+            elif p.rect.bottom > self.rect.bottom > p.rect.top and len(intersect) != 0:
+
+                self.rect.bottom = p.rect.top
+                self.onGround = True
 
 
-        else:  #мы падаем
-            self.onGround = False
+        print( self.onGround)
+
+
+    def damage(self):
+        self.health -= 10
 
 
 
 
 if __name__ == "__main__":
-    q = False
-    while not q:
-        keys = key.get_pressed()
-        if keys[K_UP]:
-            print("up")
+    pass
 
 
 
