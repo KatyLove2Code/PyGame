@@ -16,7 +16,7 @@ W = 800  # Ширина окна
 H = 640  # Высота окна
 display = (W, H)
 bg_color = "#000000"
-
+platforms = []
 fps = pygame.time.Clock()
 
 all_sprites = pygame.sprite.Group()
@@ -54,6 +54,7 @@ def main():
         for col in row:
             if col == "-":
                 platform = Platform((platform_group, all_sprites), col, x, y)
+                platforms.append(platform)
                 # создаем блок, заливаем его цветом и рисеум его
                 """
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
@@ -96,7 +97,7 @@ def main():
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         x = y = 0
         draw_sprites(screen)
-        hero.update()  # передвижение
+        hero.update(platforms)  # передвижение
         camera.update(hero)
         for sprite in all_sprites:
             camera.apply(sprite)
