@@ -58,39 +58,30 @@ class Player(sprite.Sprite):
 
         # self.onGround = False;  # Мы не знаем, когда мы на земле
         self.rect.y += self.yvel
-        self.rect.x += self.xvel  # переносим свои положение на xvel
+        self.collide(0, self.yvel, platforms)
+        self.rect.x += self.xvel
+        self.collide(self.xvel, 0, platforms)
 
 
     # ПРОВЕРКА СТОЛКНОВЕНИЙ
-    def check_collide(self, platforms):
-
-        # if sprite.spritecollideany(self, self.collide_with[0]) is not None: #Столкнулся с чем-то, нужно проверить с чем или кем(мобы)
-        #
-        #       if len(platforms.get_sprites_at(self.rect.midbottom)) != 0:  #если середина низа пересекается с платформой, то на земле
-        #           self.onGround = True
-        #       else:
-        #           self.onGround = False        #
-        #
-        # else:  #мы падаем
-        #      self.onGround = False
-        #
-        # КОД НЕ АКТУАЛЕН, НИЖЕ РАСШИРЕННАЯ ПРОВЕРКА
-        self.onGround = False #По умолчанию считаем, что падает, пока не докажет обратное
-         #Проверяем столкновения с платформами
+    def collide(self, xvel, yvel, platforms):
         for p in platforms:
-            playerRange = set(range(self.rect.left, self.rect.right))
-            platformRange = set(range(p.rect.left, p.rect.right))
-            intersect = playerRange & platformRange ##https://pythonworld.ru/tipy-dannyx-v-python/mnozhestva-set-i-frozenset.html
-            if self.rect.bottom == p.rect.top and len(intersect) != 0:
-                self.onGround = True
+            if sprite.collide_rect(self, p): # если есть пересечение платформы с игроком
 
-            elif p.rect.bottom > self.rect.bottom > p.rect.top and len(intersect) != 0:
+                if xvel > 0:                      # если движется вправо
+                    self.rect.right = p.rect.left # то не движется вправо
 
-                self.rect.bottom = p.rect.top
-                self.onGround = True
+                if xvel < 0:                      # если движется влево
+                    self.rect.left = p.rect.right # то не движется влево
 
+                if yvel > 0:                      # если падает вниз
+                    self.rect.bottom = p.rect.top # то не падает вниз
+                    self.onGround = True          # и становится на что-то твердое
+                    self.yvel = 0                 # и энергия падения пропадает
 
-        print(self.onGround)
+                if yvel < 0:                      # если движется вверх
+                    self.rect.top = p.rect.bottom # то не движется вверх
+                    self.yvel = 0                 # и энергия прыжка пропадает
 
     def damage(self):
         self.health -= 40
