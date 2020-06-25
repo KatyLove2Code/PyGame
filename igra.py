@@ -96,8 +96,6 @@ def main():
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         x = y = 0
         draw_sprites(screen)
-
-        hero.check_collide(platform_group)
         hero.update()  # передвижение
         camera.update(hero)
         for sprite in all_sprites:
