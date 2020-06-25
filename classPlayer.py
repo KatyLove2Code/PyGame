@@ -83,9 +83,7 @@ class Player(sprite.Sprite):
             intersect = playerRange & platformRange  # https://pythonworld.ru/tipy-dannyx-v-python/mnozhestva-set-i-frozenset.html
             if self.rect.bottom == p.rect.top and len(intersect) != 0:
                 self.onGround = True
-            if self.rect.top == p.rect.bottom and len(intersect) != 0:
-                self.yvel += GRAVITY * 10
-            if p.rect.bottom > self.rect.bottom > p.rect.top and len(intersect) != 0:
+            elif p.rect.bottom > self.rect.bottom > p.rect.top and len(intersect) != 0:
                 self.rect.bottom = p.rect.top
                 self.onGround = True
         print(self.onGround)
