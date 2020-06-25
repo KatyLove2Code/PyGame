@@ -1,6 +1,5 @@
 """
-крч, я не знаю, где ошибки, но он либо не ходит, либо не обновляет картинку
-помогите пожалуйста
+кря
 """
 
 from pygame import *
@@ -88,12 +87,22 @@ class Player(sprite.Sprite):
 
                 self.rect.bottom = p.rect.top
                 self.onGround = True
-
+    """ hits_mob = pygame.sprite.spritecollide(player, mobs, False)
+            if hits_mob:
+                hero.damage()
+            hits_spikes = pygame.sprite.spritecollide(player, mobs, False)
+            if hits_spikes:
+                hero.damage_max()
+    """
 
         print(self.onGround)
 
     def damage(self):
-        self.health -= 10
+        self.health -= 40
+
+
+    def damage(self):
+        self.health = 0
 
 
 
@@ -101,11 +110,3 @@ class Player(sprite.Sprite):
 if __name__ == "__main__":
     pass
 
-
-
-"""
-for p in platforms:
-    if player.rect.bottom == p.rect.top or player.colliderect(p):
-        #игрок не падает
-
-"""
