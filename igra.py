@@ -29,7 +29,7 @@ lever_group = pygame.sprite.Group()
 deco_group = pygame.sprite.Group() #
 
 
-pygame.time.set_timer(pygame.USEREVENT, 3000) #Событие будет генерироваться раз в 3 секунды
+#pygame.time.set_timer(pygame.USEREVENT, 3000) #Событие будет генерироваться раз в 3 секунды
 
 def draw_sprites(screen):
     all_sprites.draw(screen)
@@ -91,8 +91,8 @@ def main():
                 pygame.quit()
                 quit()
 
-            if event.type == pygame.USEREVENT:
-                hero.damage()
+            #if event.type == pygame.USEREVENT:
+                #hero.damage()
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         x = y = 0
         draw_sprites(screen)

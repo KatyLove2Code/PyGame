@@ -93,7 +93,7 @@ class Player(sprite.Sprite):
         print(self.onGround)
 
     def damage(self):
-        self.health -= 10
+        self.health -= 40
 
 
 
