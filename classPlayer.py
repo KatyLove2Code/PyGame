@@ -29,31 +29,28 @@ class Player(sprite.Sprite):
         self.collide_with = collide_with  # группы, с которыми игрок может взаимодействовать
         self.health = 120 #Здоровье
 
-
     def update(self):
         keys = key.get_pressed()
-
         self.image.fill(Color(COLOR))
         draw.rect(self.image, (255, 0, 0), (0,0, self.health//4, 5))
 
-
-       #ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
+        # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
         if keys[K_LEFT]:
             self.xvel = -speed  # Лево = x- n
 
-        elif  keys[K_RIGHT]:
+        elif keys[K_RIGHT]:
             self.xvel = speed  # Право = x + n
 
-        else :  # стоим, когда нет указаний идти
+        else:  # стоим, когда нет указаний идти
             self.xvel = 0
 
-        #ПРЫЖОК
+        # ПРЫЖОК
         if keys[K_SPACE]:
             if self.onGround:  # прыгаем только когда можем оттолкнуться от земли(потом сделаю двойной прыжок(как-хз пока что))
                 self.yvel = -JUMP_POWER
                 self.onGround = False
 
-        #ГРАВИТАЦИЯ
+        # ГРАВИТАЦИЯ
         if not self.onGround:
             self.yvel += GRAVITY #Если не на земле, то действует гравитация
         else:
@@ -64,7 +61,7 @@ class Player(sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
 
 
-    #ПРОВЕРКА СТОЛКНОВЕНИЙ
+    # ПРОВЕРКА СТОЛКНОВЕНИЙ
     def check_collide(self, platforms):
 
         # if sprite.spritecollideany(self, self.collide_with[0]) is not None: #Столкнулся с чем-то, нужно проверить с чем или кем(мобы)
@@ -93,8 +90,7 @@ class Player(sprite.Sprite):
                 self.onGround = True
 
 
-        print( self.onGround)
-
+        print(self.onGround)
 
     def damage(self):
         self.health -= 10

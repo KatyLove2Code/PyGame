@@ -40,9 +40,9 @@ class Spikes(pygame.sprite.Sprite):
         elif self.spike_anim_timer == 3:
             self.spikes_out = True
 
-    def update(self):
-        if self.spike_speed > 0:
-            if self.spike_counter > 0:
+    def update(self):  # spikes constantly retracting
+        if self.spike_speed > 0:  # set spike speed to 0 for static spikes
+            if self.spike_counter > 0:  # a countdown for spike movement
                 self.spike_counter -= 1
             else:
                 if self.spikes_out is True:
