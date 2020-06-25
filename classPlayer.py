@@ -29,7 +29,7 @@ class Player(sprite.Sprite):
         self.collide_with = collide_with  # группы, с которыми игрок может взаимодействовать
         self.health = 120 #Здоровье
 
-    def update(self):
+    def update(self, platforms):
         keys = key.get_pressed()
         self.image.fill(Color(COLOR))
         draw.rect(self.image, (255, 0, 0), (0,0, self.health//4, 5))
@@ -56,7 +56,7 @@ class Player(sprite.Sprite):
         else:
             self.yvel = 0
 
-        # self.onGround = False;  # Мы не знаем, когда мы на земле
+        self.onGround = False  # Мы не знаем, когда мы на земле
         self.rect.y += self.yvel
         self.collide(0, self.yvel, platforms)
         self.rect.x += self.xvel
