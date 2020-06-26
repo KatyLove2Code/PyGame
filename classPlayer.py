@@ -1,10 +1,10 @@
 from pygame import *
 
-speed = 7
+speed = 5
 gg_wight = 25
 gg_height = 50
 COLOR = "#888888"
-JUMP_POWER = 10
+JUMP_POWER = 8
 GRAVITY = 0.5  # величина гравитации
 
 
