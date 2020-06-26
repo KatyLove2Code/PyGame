@@ -1,13 +1,8 @@
-"""
-крч, я не знаю, где ошибки, но он либо не ходит, либо не обновляет картинку
-помогите пожалуйста
-"""
-
 from pygame import *
 
 speed = 7
 gg_wight = 30
-gg_height = 50
+gg_height = 60
 COLOR = "#888888"
 JUMP_POWER = 10
 GRAVITY = 0.5  # величина гравитации
@@ -91,12 +86,3 @@ class Player(sprite.Sprite):
 
 if __name__ == "__main__":
     pass
-
-
-
-"""
-for p in platforms:
-    if player.rect.bottom == p.rect.top or player.colliderect(p):
-        #игрок не падает
-
-"""
