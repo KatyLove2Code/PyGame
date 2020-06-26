@@ -21,6 +21,7 @@ MOBS = "2" #мобы
 TREASURE = "3" #сокровище
 LEVER = "5" #рычаг который триггерится при соприкосновении с игроком и убивающий то скопление из 4 мобов слева снизу от него
 
+
 class Platform(sprite.Sprite):
     def __init__(self, groups, plat_type, x, y):
         super().__init__(groups[0], groups[1])
@@ -31,18 +32,19 @@ class Platform(sprite.Sprite):
             color = Color("#123456")
 
         elif plat_type == SPIKES:
-            color = Color("#654321")
+            pass
+            color = Color("#FFFFFF")
 
-        elif plat_type == "2":
+        elif plat_type == MOBS:
             color = Color("#011032")
 
-        elif plat_type == "3":
+        elif plat_type == TREASURE:
             color = Color("#555353")
 
-        elif plat_type == "5":
+        elif plat_type == LEVER:
             color = Color("#125364")
         else:
-            color = (255, 0, 255) #Если попался случайно не тот символ, то он подкрасится
+            color = (255, 0, 255)  # Если попался случайно не тот символ, то он подкрасится
 
         self.image.fill(color)
 

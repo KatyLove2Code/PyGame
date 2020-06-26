@@ -2,7 +2,7 @@ import pygame
 from pygame import *
 from classPlayer import Player  # импорт грока и файла
 from classPlatform import *
-from classSpikes import *
+from classSpikes import Spikes
 from classCamera import Camera
 from levels import level_2, level
 
@@ -14,6 +14,7 @@ H = 640  # Высота окна
 display = (W, H)
 bg_color = "#000000"
 platforms = []
+spikes = []
 fps = pygame.time.Clock()
 x1, y1 = 0, 0
 
@@ -24,13 +25,14 @@ spike_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
-deco_group = pygame.sprite.Group() #
+deco_group = pygame.sprite.Group()
 
 
 #pygame.time.set_timer(pygame.USEREVENT, 3000) #Событие будет генерироваться раз в 3 секунды
 
 def draw_sprites(screen):
     all_sprites.draw(screen)
+
 
 def draw_level(screen):
     x, y = 0, 0
@@ -41,7 +43,10 @@ def draw_level(screen):
                 platform = Platform((platform_group, all_sprites), col, x, y)
                 platforms.append(platform)
             elif col == "1":
-                platform = Platform((spike_group, all_sprites), col, x, y)
+                # platform = Platform((spike_group, all_sprites), col, x, y)
+                spike = Spikes(("Spikes_CD.png", PLATFORM_WIDTH, PLATFORM_HEIGHT, False),
+                               (spike_group, all_sprites), (x, y), 0)
+                spikes.append(spike)
                 pf = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
                 pf.fill(pygame.Color(PLATFORM_COLOR))
                 screen.blit(pf, (x, y))
@@ -89,6 +94,8 @@ def main():
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         #x = y = 0
         draw_sprites(screen)
+        for i in spikes:
+            i.update(hero, player_group)
         hero.update(platforms)  # передвижение
         camera.update(hero)
         for sprite in all_sprites:

@@ -57,7 +57,6 @@ class Player(sprite.Sprite):
         self.rect.x += self.xvel
         self.collide(self.xvel, 0, platforms)
 
-
     # ПРОВЕРКА СТОЛКНОВЕНИЙ
     def collide(self, xvel, yvel, platforms):
         for p in platforms:
@@ -80,8 +79,6 @@ class Player(sprite.Sprite):
 
     def damage(self):
         self.health -= 40
-
-
 
 
 if __name__ == "__main__":
