@@ -46,6 +46,6 @@ class Platform(sprite.Sprite):
         else:
             color = (255, 0, 255)  # Если попался случайно не тот символ, то он подкрасится
 
-        self.image.fill(color)
+        self.image = image.load("textures/block.jpg")
 
     
