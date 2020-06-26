@@ -40,7 +40,7 @@ class Spikes(pygame.sprite.Sprite):
         elif self.spike_anim_timer == 3:
             self.spikes_out = True
 
-    def update(self):  # spikes constantly retracting
+    def update(self, character=None, character_group=None):  # spikes constantly retracting
         if self.spike_speed > 0:  # set spike speed to 0 for static spikes
             if self.spike_counter > 0:  # a countdown for spike movement
                 self.spike_counter -= 1
@@ -52,6 +52,9 @@ class Spikes(pygame.sprite.Sprite):
                 if self.spike_anim_timer == 3:
                     self.spike_counter = self.spike_speed
                     self.spike_anim_timer = 0
+        if pygame.sprite.spritecollideany(self, character_group):
+            if character is not None and character_group is not None:
+                character.damage()
 
 
 def run_cycle():  # a demonstration
@@ -69,4 +72,4 @@ def run_cycle():  # a demonstration
         clock.tick(FPS)
 
 
-run_cycle()
+# run_cycle()
