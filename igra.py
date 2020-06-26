@@ -19,7 +19,7 @@ fps = pygame.time.Clock()
 x1, y1 = 0, 0
 
 all_sprites = pygame.sprite.Group()
-player_group = pygame.sprite.Group()  # умоляю, пользуйтесь спрайт группами!
+player_group = pygame.sprite.Group()
 platform_group = pygame.sprite.LayeredUpdates() #https://www.pygame.org/docs/ref/sprite.html#pygame.sprite.LayeredUpdates
 spike_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
