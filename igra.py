@@ -9,8 +9,8 @@ from levels import level_2, level
 pygame.init()
 
 # Объявляем переменные
-W = 800  # Ширина окна
-H = 640  # Высота окна
+W = 1920  # Ширина окна
+H = 1080  # Высота окна
 display = (W, H)
 bg_color = "#000000"
 platforms = []
@@ -76,7 +76,7 @@ def draw_level(screen):
 
 
 def main():
-    screen = pygame.display.set_mode(display)
+    screen = pygame.display.set_mode(display, FULLSCREEN)
     pygame.display.set_caption("ultra_game")
     bg = Surface((W, H))  # Создание видимой поверхности для фона
     bg.fill(Color(bg_color))  # Заливаем поверхность
