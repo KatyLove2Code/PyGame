@@ -9,7 +9,7 @@ WIN_HEIGHT = 1080
 BACKGROUND_COLOR = "#FFFFFF"
 PLATFORM_WIDTH = 30
 PLATFORM_HEIGHT = 30
-PLATFORM_COLOR = "#000000"
+PLATFORM_COLOR = "#CD5700"
 bg = Surface((WIN_WIDTH, WIN_HEIGHT))
 Rect = bg.get_rect()
 
@@ -46,6 +46,7 @@ class Platform(sprite.Sprite):
         else:
             color = (255, 0, 255)  # Если попался случайно не тот символ, то он подкрасится
 
-        self.image = image.load("textures/block.jpg")
+        #self.image = image.load("textures/block.jpg")
+        self.image.fill(Color(PLATFORM_COLOR))
 
     
