@@ -33,7 +33,6 @@ deco_group = pygame.sprite.Group()
 def draw_sprites(screen):
     all_sprites.draw(screen)
 
-
 def draw_level(screen):
     x, y = 0, 0
     global x1, y1

@@ -1,10 +1,10 @@
 from pygame import *
 
-speed = 5
+speed = 7
 gg_wight = 25
 gg_height = 50
 COLOR = "#888888"
-JUMP_POWER = 8
+JUMP_POWER = 10
 GRAVITY = 0.5  # величина гравитации
 
 
@@ -28,14 +28,15 @@ class Player(sprite.Sprite):
         keys = key.get_pressed()
         self.image.fill(Color(COLOR))
         draw.rect(self.image, (255, 0, 0), (0,0, self.health//4, 5))
-
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
         if keys[K_LEFT]:
             self.xvel = -speed  # Лево = x- n
 
         elif keys[K_RIGHT]:
             self.xvel = speed  # Право = x + n
-
+        elif keys[K_ESCAPE]: # оно робит только тут, я хз почему, не трогайте, это выход из игры на ESC
+            pygame.quit()
+            quit()
         else:  # стоим, когда нет указаний идти
             self.xvel = 0
 
