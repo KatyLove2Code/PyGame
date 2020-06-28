@@ -4,7 +4,7 @@ from classPlayer import Player  # импорт грока и файла
 from classPlatform import *
 from classSpikes import Spikes
 from classCamera import Camera
-from levels import level_2, level
+from levels import levels
 
 pygame.init()
 
@@ -17,6 +17,8 @@ platforms = []
 spikes = []
 fps = pygame.time.Clock()
 x1, y1 = 0, 0
+
+num_of_level=0 #0 -> первый уровень (n-1 -> n уровень)
 
 all_sprites = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
@@ -36,7 +38,7 @@ def draw_sprites(screen):
 def draw_level(screen):
     x, y = 0, 0
     global x1, y1
-    for row in level_2:
+    for row in levels[num_of_level]:
         for col in row:
             if col == "-":
                 platform = Platform((platform_group, all_sprites), col, x, y)
@@ -81,7 +83,7 @@ def main():
     bg.fill(Color(bg_color))  # Заливаем поверхность
     draw_level(screen)
     hero = Player((player_group, all_sprites), x1, y1, [platform_group])  # создаем героя по x,y координатам
-    camera = Camera((len(level_2[0]), len(level_2)), W, H)
+    camera = Camera((len(levels[0]), len(levels[num_of_level])), W, H)
     while 1:  # Основной цикл программы
         for e in pygame.event.get():  # Обрабатываем события
             if e.type == QUIT:
