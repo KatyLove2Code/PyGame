@@ -22,6 +22,7 @@ class Player(sprite.Sprite):
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # стою на земле или нет
         self.health = 120 #Здоровье
+        #Запоминаем старовую точку отсчёта
         self.damage_timer = time.get_ticks() #https://www.pygame.org/docs/ref/time.html#pygame.time.get_ticks
 
     def update(self, platform_group):
@@ -73,6 +74,7 @@ class Player(sprite.Sprite):
                 elif xvel < 0:                      # если движется влево
                     self.rect.left = p.rect.right # то не движется влево
 
+
                 if yvel > 0:                      # если падает вниз
                     self.rect.bottom = p.rect.top # то не падает вниз
                     self.onGround = True          # и становится на что-то твердое
@@ -83,8 +85,7 @@ class Player(sprite.Sprite):
                     self.yvel = 0                 # и энергия прыжка пропадает
 
     def damage(self):
-        #print(self.health)
-        if time.get_ticks() - self.damage_timer >= 1000:
+       if time.get_ticks() - self.damage_timer >= 1000: #Если с момента последнего урона прошло больше 1 секнды (1000 млс)
             self.health -= 40
             self.damage_timer = time.get_ticks()
 
