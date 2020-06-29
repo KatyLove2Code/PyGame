@@ -13,13 +13,10 @@ PLATFORM_COLOR = "#CD5700"
 bg = Surface((WIN_WIDTH, WIN_HEIGHT))
 Rect = bg.get_rect()
 
-
-
-
-SPIKES = "1" #шипы
-MOBS = "2" #мобы
-TREASURE = "3" #сокровище
-LEVER = "5" #рычаг который триггерится при соприкосновении с игроком и убивающий то скопление из 4 мобов слева снизу от него
+SPIKES = "1"  # шипы
+MOBS = "2"  # мобы
+TREASURE = "3"  # сокровище
+LEVER = "5"  # рычаг который триггерится при соприкосновении с игроком и убивающий то скопление из 4 мобов слева снизу от него
 
 
 class Platform(sprite.Sprite):
@@ -29,24 +26,22 @@ class Platform(sprite.Sprite):
         self.rect = self.image.get_rect().move(x, y)
 
         if plat_type == "-":
-            color = Color("#123456")
+            self.color = Color("#123456")
 
-        elif plat_type == SPIKES:
-            pass
-            color = Color("#FFFFFF")
+        # elif plat_type == SPIKES:
+        #     pass
+        #     color = Color("#FFFFFF")
 
         elif plat_type == MOBS:
-            color = Color("#011032")
+            self.color = Color("#011032")
 
         elif plat_type == TREASURE:
-            color = Color("#555353")
+            self.color = Color("#555353")
 
         elif plat_type == LEVER:
-            color = Color("#125364")
+            self.color = Color("#125364")
         else:
-            color = (255, 0, 255)  # Если попался случайно не тот символ, то он подкрасится
+            self.color = (255, 0, 255)  # Если попался случайно не тот символ, то он подкрасится
 
-        #self.image = image.load("textures/block.jpg")
-        self.image.fill(Color(PLATFORM_COLOR))
-
-    
+        # self.image = image.load("textures/block.jpg")
+        self.image.fill(self.color)

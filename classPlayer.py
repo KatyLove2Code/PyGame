@@ -1,6 +1,6 @@
 from pygame import *
 
-speed = 7
+SPEED = 7
 gg_wight = 25
 gg_height = 50
 COLOR = "#888888"
@@ -9,7 +9,7 @@ GRAVITY = 0.5  # величина гравитации
 
 
 class Player(sprite.Sprite):
-    def __init__(self, groups, x, y, collide_with):
+    def __init__(self, groups, x, y):
         super().__init__(groups[0], groups[1])
         self.xvel = 0  # скорость бега
         self.startX = x  # Начальная позиция Х и Y
@@ -21,22 +21,21 @@ class Player(sprite.Sprite):
         self.rect.y = self.startY
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # стою на земле или нет
-        self.collide_with = collide_with  # группы, с которыми игрок может взаимодействовать
         self.health = 120 #Здоровье
+        self.damage_timer = time.get_ticks() #https://www.pygame.org/docs/ref/time.html#pygame.time.get_ticks
 
-    def update(self, platforms):
+    def update(self, platform_group):
+        print("OnFround: ", self.onGround,"self.yvel : ", self.yvel )
         keys = key.get_pressed()
         self.image.fill(Color(COLOR))
         draw.rect(self.image, (255, 0, 0), (0,0, self.health//4, 5))
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
         if keys[K_LEFT]:
-            self.xvel = -speed  # Лево = x- n
+            self.xvel = -SPEED  # Лево = x- n
 
         elif keys[K_RIGHT]:
-            self.xvel = speed  # Право = x + n
-        elif keys[K_ESCAPE]: # оно робит только тут, я хз почему, не трогайте, это выход из игры на ESC
-            pygame.quit()
-            quit()
+            self.xvel = SPEED  # Право = x + n
+
         else:  # стоим, когда нет указаний идти
             self.xvel = 0
 
@@ -54,19 +53,24 @@ class Player(sprite.Sprite):
 
         self.onGround = False  # Мы не знаем, когда мы на земле
         self.rect.y += self.yvel
-        self.collide(0, self.yvel, platforms)
+        self.collide(0, self.yvel, platform_group)
         self.rect.x += self.xvel
-        self.collide(self.xvel, 0, platforms)
+        self.collide(self.xvel, 0, platform_group)
+
+        # self.rect.y += self.yvel
+        # self.rect.y += self.yvel
+        # self.collide(self.xvel, self.yvel, platforms)
+
 
     # ПРОВЕРКА СТОЛКНОВЕНИЙ
-    def collide(self, xvel, yvel, platforms):
-        for p in platforms:
+    def collide(self, xvel, yvel, platform_group):
+        for p in platform_group:
             if sprite.collide_rect(self, p): # если есть пересечение платформы с игроком
 
                 if xvel > 0:                      # если движется вправо
                     self.rect.right = p.rect.left # то не движется вправо
 
-                if xvel < 0:                      # если движется влево
+                elif xvel < 0:                      # если движется влево
                     self.rect.left = p.rect.right # то не движется влево
 
                 if yvel > 0:                      # если падает вниз
@@ -74,12 +78,15 @@ class Player(sprite.Sprite):
                     self.onGround = True          # и становится на что-то твердое
                     self.yvel = 0                 # и энергия падения пропадает
 
-                if yvel < 0:                      # если движется вверх
+                elif yvel < 0:                      # если движется вверх
                     self.rect.top = p.rect.bottom # то не движется вверх
                     self.yvel = 0                 # и энергия прыжка пропадает
 
     def damage(self):
-        self.health -= 40
+        #print(self.health)
+        if time.get_ticks() - self.damage_timer >= 1000:
+            self.health -= 40
+            self.damage_timer = time.get_ticks()
 
     def smert(self):
         self.rect.x = self.startX

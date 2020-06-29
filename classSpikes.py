@@ -72,4 +72,5 @@ def run_cycle():  # a demonstration
         clock.tick(FPS)
 
 
-# run_cycle()
+if __name__ == "__main__":
+    run_cycle()
