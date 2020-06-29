@@ -81,6 +81,10 @@ class Player(sprite.Sprite):
     def damage(self):
         self.health -= 40
 
+    def smert(self):
+        self.rect.x = self.startX
+        self.rect.y = self.startY
+        self.health = 120
 
 if __name__ == "__main__":
     pass

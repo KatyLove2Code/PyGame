@@ -95,6 +95,7 @@ def main():
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         #x = y = 0
         draw_sprites(screen)
+
         for i in spikes:
             i.update(hero, player_group)
         hero.update(platforms)  # передвижение
