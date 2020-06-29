@@ -88,9 +88,9 @@ class Player(sprite.Sprite):
             self.health -= 40
             self.damage_timer = time.get_ticks()
 
-    def smert(self):
-        self.rect.x = self.startX
-        self.rect.y = self.startY
+    def smert(self,startX, startY ):
+        self.rect.x = startX
+        self.rect.y = startY
         self.health = 120
 
 if __name__ == "__main__":

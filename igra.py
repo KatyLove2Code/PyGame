@@ -62,9 +62,8 @@ def draw_level(screen):
 def startLevel(screen):
     screen.fill(pygame.Color("black"))  # специально для обновления экрана
     draw_level(screen)
-    hero = Player((player_group, all_sprites), x1, y1)  # создаем героя по x,y координатам
 
-    return hero
+
 
 
 def main():
@@ -72,7 +71,8 @@ def main():
     pygame.display.set_caption("ultra_game")
 
     camera = Camera((len(levels[0]), len(levels[num_of_level])), W, H)
-    hero = startLevel(screen)
+    startLevel(screen)
+    hero = Player((player_group, all_sprites), x1, y1)  # создаем героя по x,y координатам
 
     while 1:  # Основной цикл программы
         for e in pygame.event.get():  # Обрабатываем события
@@ -86,9 +86,11 @@ def main():
 
         if hero.health <= 0:
             for s in all_sprites:
-                s.kill()
+                if s != hero:
+                    s.kill()
             print("Sprites left: ", len(all_sprites.sprites()))
-            hero = startLevel(screen)
+            startLevel(screen)
+            hero.smert(x1, y1)
             camera = Camera((len(levels[0]), len(levels[num_of_level])), W, H)
 
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
