@@ -4,7 +4,7 @@ SPEED = 7
 gg_wight = 25
 gg_height = 50
 COLOR = "#888888"
-JUMP_POWER = 10
+JUMP_POWER = 8
 GRAVITY = 0.5  # величина гравитации
 
 
@@ -29,7 +29,7 @@ class Player(sprite.Sprite):
         print("OnFround: ", self.onGround,"self.yvel : ", self.yvel )
         keys = key.get_pressed()
         self.image.fill(Color(COLOR))
-        draw.rect(self.image, (255, 0, 0), (0,0, self.health//4, 5))
+        draw.rect(self.image, (255, 0, 0), (0,0, self.health // 4, 5))
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
         if keys[K_LEFT]:
             self.xvel = -SPEED  # Лево = x- n
@@ -85,14 +85,17 @@ class Player(sprite.Sprite):
                     self.yvel = 0                 # и энергия прыжка пропадает
 
     def damage(self):
-       if time.get_ticks() - self.damage_timer >= 1000: #Если с момента последнего урона прошло больше 1 секнды (1000 млс)
+        if time.get_ticks() - self.damage_timer >= 1000: #Если с момента последнего урона прошло больше 1 секнды (1000 млс)
             self.health -= 40
             self.damage_timer = time.get_ticks()
 
-    def smert(self,startX, startY ):
+    def smert(self, startX, startY ):
         self.rect.x = startX
         self.rect.y = startY
         self.health = 120
+        self.yvel = 0
+        self.xvel = 0
+        self.onGround = False
 
 if __name__ == "__main__":
     pass
