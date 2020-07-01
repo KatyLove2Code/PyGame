@@ -45,3 +45,17 @@ class Platform(sprite.Sprite):
 
         # self.image = image.load("textures/block.jpg")
         self.image.fill(self.color)
+
+
+class Portal(sprite.Sprite):
+    def __init__(self, groups, x, y):
+        super().__init__(groups)
+        self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
+        self.rect = self.image.get_rect().move(x, y)
+        self.color = (255, 255, 0)
+        self.image.fill(self.color)
+        self.group = groups[1]
+
+    def update(self):
+        if len(sprite.spritecollide(self, self.group, False))  >1:
+            event.post(event.Event(USEREVENT+1) )

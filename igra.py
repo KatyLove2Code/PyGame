@@ -26,7 +26,10 @@ spike_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
-#deco_group = pygame.sprite.Group()
+portal_group = pygame.sprite.Group()
+
+
+# deco_group = pygame.sprite.Group()
 
 
 def draw_level(screen):
@@ -49,6 +52,10 @@ def draw_level(screen):
             elif col == "5":
                 Platform((lever_group, all_sprites), col, x, y)
 
+            elif col == "6":
+                Portal((portal_group, all_sprites), x, y)
+
+
             elif col == "x":
                 x1, y1 = x, y
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
@@ -64,12 +71,21 @@ def startLevel(screen):
     draw_level(screen)
 
 
+def restartLevel(hero, screen):
+    for s in all_sprites:
+        if s != hero:
+            s.kill()
+    print("Sprites left: ", len(all_sprites.sprites()))
+    startLevel(screen)
+    hero.smert(x1, y1)
+    camera = Camera((len(levels[0]), len(levels[num_of_level])), W, H)
+    return camera
 
 
 def main():
     screen = pygame.display.set_mode(display, FULLSCREEN)
     pygame.display.set_caption("ultra_game")
-
+    global num_of_level
     camera = Camera((len(levels[0]), len(levels[num_of_level])), W, H)
     startLevel(screen)
     hero = Player((player_group, all_sprites), x1, y1)  # создаем героя по x,y координатам
@@ -80,24 +96,22 @@ def main():
             if e.type == QUIT:
                 game = False
 
-
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 game = False
 
+            if e.type == pygame.USEREVENT + 1:
+                num_of_level+=1
+                camera = restartLevel(hero, screen)
+
         if hero.health <= 0:
-            for s in all_sprites:
-                if s != hero:
-                    s.kill()
-            print("Sprites left: ", len(all_sprites.sprites()))
-            startLevel(screen)
-            hero.smert(x1, y1)
-            camera = Camera((len(levels[0]), len(levels[num_of_level])), W, H)
+            camera = restartLevel(hero, screen)
 
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         all_sprites.draw(screen)
         spike_group.update(hero, player_group)
         hero.update(platform_group)  # передвижение
         camera.update(hero)
+        portal_group.update()
         for sprite in all_sprites:
             camera.apply(sprite)
         pygame.display.update()  # обновление и вывод всех изменений на экран
