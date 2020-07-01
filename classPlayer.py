@@ -21,7 +21,7 @@ class Player(sprite.Sprite):
         self.rect.y = self.startY
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # стою на земле или нет
-        self.health = 12000 #Здоровье
+        self.health = 120 #Здоровье
         #Запоминаем старовую точку отсчёта
         self.damage_timer = time.get_ticks() #https://www.pygame.org/docs/ref/time.html#pygame.time.get_ticks
 
