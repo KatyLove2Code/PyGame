@@ -5,7 +5,6 @@ gg_wight = 25
 gg_height = 50
 COLOR = "#888888"
 JUMP_POWER = 8
-JUMP_POWER = 10
 GRAVITY = 0.5  # величина гравитации
 
 
