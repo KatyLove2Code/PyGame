@@ -5,6 +5,7 @@ gg_wight = 25
 gg_height = 50
 COLOR = "#888888"
 JUMP_POWER = 8
+JUMP_POWER = 10
 GRAVITY = 0.5  # величина гравитации
 
 
@@ -21,12 +22,11 @@ class Player(sprite.Sprite):
         self.rect.y = self.startY
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # стою на земле или нет
-        self.health = 120 #Здоровье
+        self.health = 12000 #Здоровье
         #Запоминаем старовую точку отсчёта
         self.damage_timer = time.get_ticks() #https://www.pygame.org/docs/ref/time.html#pygame.time.get_ticks
 
     def update(self, platform_group):
-        print("OnFround: ", self.onGround,"self.yvel : ", self.yvel )
         keys = key.get_pressed()
         self.image.fill(Color(COLOR))
         draw.rect(self.image, (255, 0, 0), (0,0, self.health // 4, 5))

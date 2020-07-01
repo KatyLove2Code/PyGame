@@ -74,15 +74,15 @@ def main():
     startLevel(screen)
     hero = Player((player_group, all_sprites), x1, y1)  # создаем героя по x,y координатам
 
-    while 1:  # Основной цикл программы
+    game = True
+    while game:  # Основной цикл программы
         for e in pygame.event.get():  # Обрабатываем события
             if e.type == QUIT:
-                pygame.quit()
-                quit()
+                game = False
+
 
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                pygame.quit()
-                quit()
+                game = False
 
         if hero.health <= 0:
             for s in all_sprites:
@@ -103,6 +103,8 @@ def main():
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
         fps.tick(60)
+    pygame.quit()
+    quit()
 
 
 if __name__ == "__main__":
