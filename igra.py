@@ -5,6 +5,7 @@ from classPlatform import *
 from classSpikes import Spikes
 from classCamera import Camera
 from levels import levels
+from classMob import Mob
 
 pygame.init()
 
@@ -44,7 +45,7 @@ def draw_level(screen):
                 Spikes(("Spikes_CD.png", PLATFORM_WIDTH, PLATFORM_HEIGHT, False),
                        (spike_group, all_sprites), (x, y), 0)
             elif col == "2":
-                Platform((enemy_group, all_sprites), col, x, y)
+                Mob((enemy_group, all_sprites),  x, y)
 
             elif col == "3":
                 Platform((treasure_group, all_sprites), col, x, y)
@@ -99,7 +100,7 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 game = False
 
-            if e.type == pygame.USEREVENT + 1:
+            if e.type == PORTAL:
                 num_of_level+=1
                 camera = restartLevel(hero, screen)
 
@@ -112,6 +113,7 @@ def main():
         hero.update(platform_group)  # передвижение
         camera.update(hero)
         portal_group.update()
+        enemy_group.update()
         for sprite in all_sprites:
             camera.apply(sprite)
         pygame.display.update()  # обновление и вывод всех изменений на экран

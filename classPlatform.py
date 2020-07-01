@@ -13,6 +13,8 @@ PLATFORM_COLOR = "#CD5700"
 bg = Surface((WIN_WIDTH, WIN_HEIGHT))
 Rect = bg.get_rect()
 
+PORTAL = USEREVENT+1
+
 SPIKES = "1"  # шипы
 MOBS = "2"  # мобы
 TREASURE = "3"  # сокровище
@@ -58,4 +60,4 @@ class Portal(sprite.Sprite):
 
     def update(self):
         if len(sprite.spritecollide(self, self.group, False))  >1:
-            event.post(event.Event(USEREVENT+1) )
+            event.post(event.Event(PORTAL) )

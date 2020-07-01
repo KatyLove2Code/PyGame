@@ -10,7 +10,7 @@ GRAVITY = 0.5  # величина гравитации
 
 class Player(sprite.Sprite):
     def __init__(self, groups, x, y):
-        super().__init__(groups[0], groups[1])
+        super().__init__(groups)
         self.xvel = 0  # скорость бега
         self.startX = x  # Начальная позиция Х и Y
         self.startY = y
