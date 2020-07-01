@@ -7,17 +7,20 @@ class Camera:
         self.height = HEIGHT
 
     def apply(self, obj):
-        obj.rect.x += self.dx
-        '''if obj.rect.x < -obj.rect.width:
-            obj.rect.x += (self.field_size[0] + 1) * obj.rect.width
-        if obj.rect.x >= (self.field_size[0]) * obj.rect.width:
-            obj.rect.x += -obj.rect.width * (1 + self.field_size[0])'''
-        obj.rect.y += self.dy
+        # obj.rect.x += self.dx
+        # '''if obj.rect.x < -obj.rect.width:
+        #     obj.rect.x += (self.field_size[0] + 1) * obj.rect.width
+        # if obj.rect.x >= (self.field_size[0]) * obj.rect.width:
+        #     obj.rect.x += -obj.rect.width * (1 + self.field_size[0])'''
+
+        if self.dy > 0:
+            obj.rect.y += self.dy
         '''if obj.rect.y < -obj.rect.height:
             obj.rect.y += (self.field_size[1] + 1) * obj.rect.height
         if obj.rect.y >= (self.field_size[1]) * obj.rect.height:
             obj.rect.y += -obj.rect.height * (1 + self.field_size[1])'''
 
     def update(self, target):
-        self.dx = -(target.rect.x + target.rect.w // 2 - self.width // 2)
-        self.dy = -(target.rect.y + target.rect.h // 2 - self.height // 2)
+        self.dx = -(target.rect.centerx - self.width // 2)
+        self.dy = -(target.rect.centery - self.height // 2)
+        print("dy=", self.dy)

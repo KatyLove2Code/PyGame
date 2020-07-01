@@ -114,8 +114,8 @@ def main():
         camera.update(hero)
         portal_group.update()
         enemy_group.update()
-        for sprite in all_sprites:
-            camera.apply(sprite)
+        # for sprite in all_sprites:
+        #     camera.apply(sprite)
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
         fps.tick(60)

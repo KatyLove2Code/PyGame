@@ -13,26 +13,21 @@ class Mob(sprite.Sprite):
         self.startY = y
         self.rect = self.image.get_rect(x = x, y = y) # прямоугольный объект(герой)
 
-        self.xvel = 0.01  # скорость бега
+        self.xvel = 1 # скорость бега
         self.health = 40 #Здоровье
         #Запоминаем старовую точку отсчёта
         self.damage_timer = time.get_ticks() #https://www.pygame.org/docs/ref/time.html#pygame.time.get_ticks
         self.maxDistance = 24
 
 
-    def update(self, *args):
-        print(abs(self.startX - self.rect.x))
-        print(self.startX )
-        print(self.rect.x)
-        print()
 
-        # self.rect.x += self.xvel
-        #
-        #
-        # if abs(self.startX - self.rect.x) >= self.maxDistance:
-        #     print(abs(self.startX - self.rect.x))
-        #
-        #     self.xvel *= -1
-        #     print(self.xvel)
+    def update(self, *args):
+
+        self.rect.x += self.xvel
+
+        if abs(self.startX - self.rect.x) >= self.maxDistance:
+
+
+            self.xvel *= -1
 
 
