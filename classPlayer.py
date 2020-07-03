@@ -6,6 +6,9 @@ gg_height = 50
 COLOR = "#888888"
 JUMP_POWER = 10
 GRAVITY = 0.5  # величина гравитации
+at_wight = 90
+at_height = 140
+COLOR_AT = "#efa94a"
 
 
 class Player(sprite.Sprite):
@@ -41,7 +44,7 @@ class Player(sprite.Sprite):
 
         # ПРЫЖОК
         if keys[K_SPACE]:
-            if self.onGround:  # прыгаем только когда можем оттолкнуться от земли(потом сделаю двойной прыжок(как-хз пока что))
+            if self.onGround:  # прыгаем только когда можем оттолкнуться от земли
                 self.yvel = -JUMP_POWER
                 self.onGround = False
 
@@ -84,7 +87,7 @@ class Player(sprite.Sprite):
                     self.yvel = 0                 # и энергия прыжка пропадает
 
     def damage(self):
-        if time.get_ticks() - self.damage_timer >= 1000: #Если с момента последнего урона прошло больше 1 секнды (1000 млс)
+        if time.get_ticks() - self.damage_timer >= 500: #Если с момента последнего урона прошло больше 0.5 секнды (500 млс)
             self.health -= 40
             self.damage_timer = time.get_ticks()
 
@@ -95,6 +98,16 @@ class Player(sprite.Sprite):
         self.yvel = 0
         self.xvel = 0
         self.onGround = False
+
+    def ydar(self):
+        """запускается нажатием кнопки "c"
+        создать спрайт с центром в центре спрайтя игрока, который в каждую сторону на блок от игроа отходит
+        проверить на столкновение этого спрайта с мобом
+        запустить анимацию
+        если сталкивается то удалить моба
+        удалить спрайт"""
+
+        
 
 if __name__ == "__main__":
     pass
