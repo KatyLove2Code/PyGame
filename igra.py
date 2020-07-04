@@ -13,6 +13,7 @@ pygame.init()
 W = 1920  # Ширина окна
 H = 1080  # Высота окна
 display = (W, H)
+surf = pygame.Surface((1000, 800))
 bg_color = "#000000"
 spikes = []
 fps = pygame.time.Clock()
@@ -108,14 +109,15 @@ def main():
             camera = restartLevel(hero, screen)
 
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
-        all_sprites.draw(screen)
+        screen.blit(surf, (460, 140))
+        surf.fill((255, 255, 255))
         spike_group.update(hero, player_group)
         hero.update(platform_group)  # передвижение
         camera.update(hero)
         portal_group.update()
         enemy_group.update()
-        # for sprite in all_sprites:
-        #     camera.apply(sprite)
+        for e in all_sprites:
+            surf.blit(e.image, (e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1420 else hero.rect.x - 500), e.rect.y - (0 if hero.rect.y < 400 else 250 if hero.rect.y > 680 else hero.rect.y - 400)))
         pygame.display.update()  # обновление и вывод всех изменений на экран
 
         fps.tick(60)
