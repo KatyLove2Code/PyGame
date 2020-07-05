@@ -104,7 +104,7 @@ def main():
         spike_group.update(hero, player_group)
         hero.update(platform_group)  # передвижение
         portal_group.update()
-        enemy_group.update()
+        enemy_group.update(hero)
         for e in all_sprites:
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
