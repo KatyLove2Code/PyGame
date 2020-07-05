@@ -3,7 +3,6 @@ from pygame import *
 from classPlayer import Player  # импорт грока и файла
 from classPlatform import *
 from classSpikes import Spikes
-from classCamera import Camera
 from levels import levels
 from classMob import Mob
 
@@ -15,7 +14,6 @@ H = 1080  # Высота окна
 display = (W, H)
 surf = pygame.Surface((1000, 800))
 bg_color = "#000000"
-spikes = []
 fps = pygame.time.Clock()
 x1, y1 = 0, 0
 
@@ -31,9 +29,6 @@ lever_group = pygame.sprite.Group()
 portal_group = pygame.sprite.Group()
 
 
-# deco_group = pygame.sprite.Group()
-
-
 def draw_level(screen):
     x, y = 0, 0
     global x1, y1
@@ -46,7 +41,7 @@ def draw_level(screen):
                 Spikes(("Spikes_CD.png", PLATFORM_WIDTH, PLATFORM_HEIGHT, False),
                        (spike_group, all_sprites), (x, y), 0)
             elif col == "2":
-                Mob((enemy_group, all_sprites),  x, y)
+                Mob((enemy_group, all_sprites), x, y)
 
             elif col == "3":
                 Platform((treasure_group, all_sprites), col, x, y)
@@ -68,30 +63,25 @@ def draw_level(screen):
     # mob.kill() - убъёт спрайт во всех группах
 
 
-def startLevel(screen):
+def start_level(screen):
     screen.fill(pygame.Color("black"))  # специально для обновления экрана
     draw_level(screen)
 
 
-def restartLevel(hero, screen):
+def restart_level(hero, screen):
     for s in all_sprites:
         if s != hero:
             s.kill()
-    print("Sprites left: ", len(all_sprites.sprites()))
-    startLevel(screen)
-    hero.smert(x1, y1)
-    camera = Camera((len(levels[0]), len(levels[num_of_level])), W, H)
-    return camera
+    start_level(screen)
+    hero.death(x1, y1)
 
 
 def main():
     screen = pygame.display.set_mode(display, FULLSCREEN)
     pygame.display.set_caption("ultra_game")
     global num_of_level
-    camera = Camera((len(levels[0]), len(levels[num_of_level])), W, H)
-    startLevel(screen)
+    start_level(screen)
     hero = Player((player_group, all_sprites), x1, y1)  # создаем героя по x,y координатам
-
     game = True
     while game:  # Основной цикл программы
         for e in pygame.event.get():  # Обрабатываем события
@@ -102,24 +92,24 @@ def main():
                 game = False
 
             if e.type == PORTAL:
-                num_of_level+=1
-                camera = restartLevel(hero, screen)
+                num_of_level += 1
+                restart_level(hero, screen)
 
         if hero.health <= 0:
-            camera = restartLevel(hero, screen)
+            restart_level(hero, screen)
 
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
         surf.fill((255, 255, 255))
         spike_group.update(hero, player_group)
         hero.update(platform_group)  # передвижение
-        camera.update(hero)
         portal_group.update()
         enemy_group.update()
         for e in all_sprites:
-            surf.blit(e.image, (e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1420 else hero.rect.x - 500), e.rect.y - (0 if hero.rect.y < 400 else 250 if hero.rect.y > 680 else hero.rect.y - 400)))
+            surf.blit(e.image, (
+                e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
+                e.rect.y - (0 if hero.rect.y < 400 else 280 if hero.rect.y > 680 else hero.rect.y - 400)))
         pygame.display.update()  # обновление и вывод всех изменений на экран
-
         fps.tick(60)
     pygame.quit()
     quit()
