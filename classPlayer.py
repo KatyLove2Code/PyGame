@@ -1,6 +1,6 @@
 from pygame import *
 
-SPEED = 8
+SPEED = 7
 gg_wight = 25
 gg_height = 50
 COLOR = "#888888"

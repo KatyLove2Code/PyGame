@@ -105,7 +105,7 @@ def main():
         hero.update(platform_group)  # передвижение
         portal_group.update()
         enemy_group.update(hero)
-        for e in all_sprites:
+        for e in all_sprites:   #это камера?
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
                 e.rect.y - (0 if hero.rect.y < 400 else 280 if hero.rect.y > 680 else hero.rect.y - 400)))
