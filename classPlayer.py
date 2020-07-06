@@ -28,12 +28,15 @@ class Player(sprite.Sprite):
         self.health = 120  # Здоровье
         # Запоминаем старовую точку отсчёта
         self.damage_timer = time.get_ticks()  # https://www.pygame.org/docs/ref/time.html#pygame.time.get_ticks
+        self.doubleJump = False
+        self.doubleJump_timer = time.get_ticks()
 
     def update(self, platform_group):
         keys = key.get_pressed()
         self.image.fill(Color(COLOR))
         draw.rect(self.image, (255, 0, 0), (0, 0, self.health // 4, 5))
-        self.y_max = min(self.y_max, self.rect.y)  # пока он не приземлится выщитываем наивысшую точку в которой он находился
+        self.y_max = min(self.y_max,
+                         self.rect.y)  # пока он не приземлится выщитываем наивысшую точку в которой он находился
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
         if keys[K_LEFT]:
             self.x_vel = -SPEED  # Лево = x- n
@@ -44,11 +47,21 @@ class Player(sprite.Sprite):
         else:  # стоим, когда нет указаний идти
             self.x_vel = 0
 
+
+
         # ПРЫЖОК
         if keys[K_SPACE]:
-            if self.onGround:  # прыгаем только когда можем оттолкнуться от земли
+            # if self.onGround:  # прыгаем только когда можем оттолкнуться от земли
+            if self.onGround or (not self.doubleJump and time.get_ticks() - self.doubleJump_timer >= 500):  # прыгаем только когда можем оттолкнуться от земли, не использовали двойной прыжок и с момента прыжка прошло пол секунды
+
+                if self.y_vel not in [0, 0.5]: #Если уже находится в прыжке, 0.5 проскакивает иногда если он стоит
+                    self.doubleJump = True
+
                 self.y_vel = -JUMP_POWER
                 self.onGround = False
+                self.doubleJump_timer = time.get_ticks() #Засекаем время с начала прыжка
+
+
 
         # ГРАВИТАЦИЯ
         if not self.onGround:
@@ -58,12 +71,22 @@ class Player(sprite.Sprite):
                 self.health -= 20
             self.y_max = 2000  # опаааааааааааа... вот он и на земле, значит ищем наивысшую точку по-новой
             self.y_vel = 0
+            self.doubleJump = False
 
         self.onGround = False  # Мы не знаем, когда мы на земле
         self.rect.y += self.y_vel
         self.collide(0, self.y_vel, platform_group)
         self.rect.x += self.x_vel
         self.collide(self.x_vel, 0, platform_group)
+
+    def jump(self):
+        if self.onGround or not self.doubleJump:  # прыгаем только когда можем оттолкнуться от земли
+            print("\n self.y_vel", self.y_vel)
+            if self.y_vel not in [0, 0.5]:  # Если уже находится в прыжке, 0.5 проскакивает иногда если он стоит
+                self.doubleJump = True
+                print("doubleJump")
+            self.y_vel = -JUMP_POWER
+            self.onGround = False
 
     # ПРОВЕРКА СТОЛКНОВЕНИЙ
     def collide(self, x_vel, y_vel, platform_group):
