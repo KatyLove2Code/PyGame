@@ -1,5 +1,5 @@
 from pygame import *
-
+from classWeapon import Weapon
 SPEED = 7
 gg_wight = 25
 gg_height = 50
@@ -30,6 +30,8 @@ class Player(sprite.Sprite):
         self.damage_timer = time.get_ticks()  # https://www.pygame.org/docs/ref/time.html#pygame.time.get_ticks
         self.doubleJump = False
         self.doubleJump_timer = time.get_ticks()
+        self.weapon = Weapon(groups[1], self)
+        self.attack = False
 
     def update(self, platform_group):
         keys = key.get_pressed()
@@ -79,14 +81,11 @@ class Player(sprite.Sprite):
         self.rect.x += self.x_vel
         self.collide(self.x_vel, 0, platform_group)
 
-    def jump(self):
-        if self.onGround or not self.doubleJump:  # прыгаем только когда можем оттолкнуться от земли
-            print("\n self.y_vel", self.y_vel)
-            if self.y_vel not in [0, 0.5]:  # Если уже находится в прыжке, 0.5 проскакивает иногда если он стоит
-                self.doubleJump = True
-                print("doubleJump")
-            self.y_vel = -JUMP_POWER
-            self.onGround = False
+        #АТАКА
+        self.weapon.update()
+
+
+
 
     # ПРОВЕРКА СТОЛКНОВЕНИЙ
     def collide(self, x_vel, y_vel, platform_group):

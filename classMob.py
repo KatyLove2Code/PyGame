@@ -26,5 +26,12 @@ class Mob(sprite.Sprite):
         if abs(self.start_x - self.rect.x) >= self.maxDistance:
             self.x_vel *= -1
         if sprite.collide_rect(self, hero):
-            hero.health -= 10
-            self.kill()
+            print('hero collide')
+            print(hero.weapon)
+            # hero.health -= 10
+            # self.kill()
+        keys = key.get_pressed()
+        if keys[K_c]:
+            if sprite.collide_rect(self, hero.weapon):
+                self.kill()
+                print("Collide")

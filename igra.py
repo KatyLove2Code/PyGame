@@ -70,7 +70,7 @@ def start_level(screen):
 
 def restart_level(hero, screen):
     for s in all_sprites:
-        if s != hero:
+        if s != hero and s != hero.weapon :
             s.kill()
     start_level(screen)
     hero.death(x1, y1)
@@ -97,7 +97,7 @@ def main():
 
         if hero.health <= 0:
             restart_level(hero, screen)
-
+        print()
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
         surf.fill((255, 255, 255))
