@@ -1,6 +1,6 @@
 import pygame
 from pygame import *
-from classPlayer import Player , images # импорт грока и файла
+from classPlayer import Player, images  # импорт грока и файла
 from classPlatform import *
 from classSpikes import Spikes
 from levels import levels
@@ -74,7 +74,7 @@ def start_level(screen):
 
 def restart_level(hero, screen):
     for s in all_sprites:
-        if s != hero and s != hero.weapon :
+        if s != hero:
             s.kill()
     start_level(screen)
     hero.death(x1, y1)
@@ -104,6 +104,7 @@ def main():
                 hero.jump()
 
             if e.type == pygame.KEYDOWN and e.key == pygame.K_b:
+                hero.shoot_animation_status = True
                 if current_bullets:
                     Bullet((weapon_group, all_sprites), hero)
                 current_bullets -= (1 if current_bullets > 0 else 0)
@@ -113,7 +114,7 @@ def main():
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
         #
-        surf.blit(background, (0,0))
+        surf.blit(background, (0, 0))
 
         spike_group.update(hero, player_group)
         hero.update(platform_group)  # передвижение
@@ -121,7 +122,7 @@ def main():
         enemy_group.update(hero)
         for b in weapon_group:
             b.update(enemy_group, platform_group)
-        for e in all_sprites:   #это камера?
+        for e in all_sprites:
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
                 e.rect.y - (0 if hero.rect.y < 400 else 280 if hero.rect.y > 680 else hero.rect.y - 400)))
