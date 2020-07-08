@@ -5,6 +5,7 @@ from classPlatform import *
 from classSpikes import Spikes
 from levels import levels
 from classMob import Mob
+from classWeapon import Bullet
 
 pygame.init()
 
@@ -27,8 +28,10 @@ enemy_group = pygame.sprite.Group()
 treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
 portal_group = pygame.sprite.Group()
+weapon_group = pygame.sprite.Group()
 
 background = image.load("textures/background.png")
+
 
 def draw_level(screen):
     x, y = 0, 0
@@ -78,6 +81,7 @@ def restart_level(hero, screen):
 
 
 def main():
+    current_bullets = 5
     screen = pygame.display.set_mode(display, FULLSCREEN)
     pygame.display.set_caption("ultra_game")
     global num_of_level
@@ -95,12 +99,17 @@ def main():
             if e.type == PORTAL:
                 num_of_level += 1
                 restart_level(hero, screen)
+
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 hero.jump()
 
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_b:
+                if current_bullets:
+                    Bullet((weapon_group, all_sprites), hero)
+                current_bullets -= (1 if current_bullets > 0 else 0)
+
         if hero.health <= 0:
             restart_level(hero, screen)
-        print()
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
         #
@@ -110,6 +119,8 @@ def main():
         hero.update(platform_group)  # передвижение
         portal_group.update()
         enemy_group.update(hero)
+        for b in weapon_group:
+            b.update(enemy_group, platform_group)
         for e in all_sprites:   #это камера?
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
