@@ -1,5 +1,5 @@
 from pygame import *
-from classWeapon import Weapon
+#from classWeapon import Weapon
 
 SPEED = 7
 gg_wight = 25
@@ -22,6 +22,7 @@ died_image = image.load("textures/died.png")
 class Player(sprite.Sprite):
     def __init__(self, groups, x, y):
         super().__init__(groups)
+        self.direction = 1
         self.y_max = 2000  # такое число взято от балды, оно просто должно быть больше нач. коорд. по y перса
         self.x_vel = 0  # скорость бега
         self.start_x = x  # Начальная позиция Х и Y
@@ -42,7 +43,7 @@ class Player(sprite.Sprite):
         self.damage_timer = time.get_ticks()  # https://www.pygame.org/docs/ref/time.html#pygame.time.get_ticks
         self.doubleJump = False
         self.doubleJump_timer = time.get_ticks()
-        self.weapon = Weapon(groups[1], self)
+        #self.weapon = Weapon(groups[1], self)
         self.attack = False
 
     def update(self, platform_group):
@@ -53,9 +54,11 @@ class Player(sprite.Sprite):
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
         if keys[K_LEFT]:
             self.x_vel = -SPEED  # Лево = x- n
+            self.direction = -1
 
         elif keys[K_RIGHT]:
             self.x_vel = SPEED  # Право = x + n
+            self.direction = 1
 
         else:  # стоим, когда нет указаний идти
             self.x_vel = 0
@@ -89,7 +92,7 @@ class Player(sprite.Sprite):
         self.collide(self.x_vel, 0, platform_group)
 
         # АТАКА
-        self.weapon.update()
+        #self.weapon.update()
 
     def jump(self):
         if self.onGround or not self.doubleJump:  # прыгаем только когда можем оттолкнуться от земли, не использовали двойной прыжок и с момента прыжка прошло пол секунды
