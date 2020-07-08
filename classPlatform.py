@@ -28,7 +28,7 @@ class Platform(sprite.Sprite):
         self.rect = self.image.get_rect().move(x, y)
 
         if plat_type == "-":
-            self.color = Color("#123456")
+            self.image = image.load("textures/block.png")
 
         # elif plat_type == SPIKES:
         #     pass
@@ -46,13 +46,14 @@ class Platform(sprite.Sprite):
             self.color = (255, 0, 255)  # Если попался случайно не тот символ, то он подкрасится
 
         # self.image = image.load("textures/block.jpg")
-        self.image.fill(self.color)
+        #self.image.fill(self.image)
 
 
 class Portal(sprite.Sprite):
     def __init__(self, groups, x, y):
         super().__init__(groups)
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
+        self.image = image.load("textures/portal1.jpg") #не бей за джипег
         self.rect = self.image.get_rect().move(x, y)
         self.color = (255, 255, 0)
         self.image.fill(self.color)
