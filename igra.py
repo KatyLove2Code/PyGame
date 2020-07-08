@@ -1,6 +1,6 @@
 import pygame
 from pygame import *
-from classPlayer import Player  # импорт грока и файла
+from classPlayer import Player , images # импорт грока и файла
 from classPlatform import *
 from classSpikes import Spikes
 from levels import levels
@@ -101,6 +101,7 @@ def main():
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
         surf.fill((255, 255, 255))
+
         spike_group.update(hero, player_group)
         hero.update(platform_group)  # передвижение
         portal_group.update()
@@ -109,6 +110,7 @@ def main():
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
                 e.rect.y - (0 if hero.rect.y < 400 else 280 if hero.rect.y > 680 else hero.rect.y - 400)))
+        draw.rect(screen, (0, 255, 0), (460, 125, hero.health*8, 15)) #Шкала XP
         pygame.display.update()  # обновление и вывод всех изменений на экран
         fps.tick(60)
     pygame.quit()

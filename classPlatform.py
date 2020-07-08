@@ -48,15 +48,17 @@ class Platform(sprite.Sprite):
         # self.image = image.load("textures/block.jpg")
         #self.image.fill(self.image)
 
+portal = image.load("textures/portal1.jpg")
+portal = transform.scale(portal, (PLATFORM_WIDTH, PLATFORM_HEIGHT) )
 
 class Portal(sprite.Sprite):
     def __init__(self, groups, x, y):
         super().__init__(groups)
-        self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-        self.image = image.load("textures/portal1.jpg") #не бей за джипег
+        # self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
+        self.image = portal
         self.rect = self.image.get_rect().move(x, y)
         self.color = (255, 255, 0)
-        self.image.fill(self.color)
+        #self.image.fill(self.color)
         self.group = groups[1]
 
     def update(self):

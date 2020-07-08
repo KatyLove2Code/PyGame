@@ -1,5 +1,6 @@
 from pygame import *
 from classWeapon import Weapon
+
 SPEED = 7
 gg_wight = 25
 gg_height = 50
@@ -10,6 +11,13 @@ at_wight = 90
 at_height = 140
 COLOR_AT = "#efa94a"
 
+images = [
+    transform.scale(image.load("textures/right1.png"),(gg_wight, gg_height)) ,
+    transform.scale(image.load("textures/right2.png"),(gg_wight, gg_height)),
+    transform.scale(image.load("textures/right3.png"),(gg_wight, gg_height))
+]
+died_image = image.load("textures/died.png")
+
 
 class Player(sprite.Sprite):
     def __init__(self, groups, x, y):
@@ -18,11 +26,15 @@ class Player(sprite.Sprite):
         self.x_vel = 0  # скорость бега
         self.start_x = x  # Начальная позиция Х и Y
         self.start_y = y
-        self.image = Surface((gg_wight, gg_height))
-        self.image.fill(Color(COLOR))
-        self.rect = self.image.get_rect()  # прямоугольный объект(герой)
-        self.rect.x = self.start_x
-        self.rect.y = self.start_y
+        # self.image_r = Surface((gg_wight, gg_height)) #картинка идущего направо
+        # self.image_r.fill(Color(COLOR))
+        self.images = images
+        self.countanimation = 0 #счётчик для списка картинок героя
+        self.image = self.images[self.countanimation] #текущая картинка
+
+        self.rect = self.image.get_rect(x= x, y=y)  # прямоугольный объект(герой)
+        # self.rect.x = self.start_x
+        # self.rect.y = self.start_y
         self.y_vel = 0  # скорость вертикального перемещения
         self.onGround = False  # стою на земле или нет
         self.health = 120  # Здоровье
@@ -35,8 +47,7 @@ class Player(sprite.Sprite):
 
     def update(self, platform_group):
         keys = key.get_pressed()
-        self.image.fill(Color(COLOR))
-        draw.rect(self.image, (255, 0, 0), (0, 0, self.health // 4, 5))
+        self.animation()
         self.y_max = min(self.y_max,
                          self.rect.y)  # пока он не приземлится выщитываем наивысшую точку в которой он находился
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
@@ -83,6 +94,23 @@ class Player(sprite.Sprite):
 
         #АТАКА
         self.weapon.update()
+
+
+    def animation(self):
+        if self.x_vel > 0:
+            self.image = self.images[self.countanimation]
+        elif self.x_vel < 0:
+            self.image = transform.flip(self.images[self.countanimation], True, False)
+
+        # self.image.fill(Color(COLOR))
+        #self.rect = self.image.get_rect(bottom = self.rect.bottom, centerx = self.rect.centerx)
+
+
+        if self.countanimation != len(self.images)-1:
+            self.countanimation +=1
+        else:
+            self.countanimation = 0
+
 
 
 
