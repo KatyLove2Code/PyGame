@@ -12,9 +12,9 @@ at_height = 140
 COLOR_AT = "#efa94a"
 
 images = [
-    transform.scale(image.load("textures/right1.png"),(gg_wight, gg_height)) ,
-    transform.scale(image.load("textures/right2.png"),(gg_wight, gg_height)),
-    transform.scale(image.load("textures/right3.png"),(gg_wight, gg_height))
+    transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
+    transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
+    transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height))
 ]
 died_image = image.load("textures/died.png")
 
@@ -29,10 +29,10 @@ class Player(sprite.Sprite):
         # self.image_r = Surface((gg_wight, gg_height)) #картинка идущего направо
         # self.image_r.fill(Color(COLOR))
         self.images = images
-        self.countanimation = 0 #счётчик для списка картинок героя
-        self.image = self.images[self.countanimation] #текущая картинка
+        self.countanimation = 0  # счётчик для списка картинок героя
+        self.image = self.images[self.countanimation]  # текущая картинка
 
-        self.rect = self.image.get_rect(x= x, y=y)  # прямоугольный объект(герой)
+        self.rect = self.image.get_rect(x=x, y=y)  # прямоугольный объект(герой)
         # self.rect.x = self.start_x
         # self.rect.y = self.start_y
         self.y_vel = 0  # скорость вертикального перемещения
@@ -60,21 +60,17 @@ class Player(sprite.Sprite):
         else:  # стоим, когда нет указаний идти
             self.x_vel = 0
 
-
-
-        # ПРЫЖОК
-        if keys[K_SPACE]:
-            # if self.onGround:  # прыгаем только когда можем оттолкнуться от земли
-            if self.onGround or (not self.doubleJump and time.get_ticks() - self.doubleJump_timer >= 500):  # прыгаем только когда можем оттолкнуться от земли, не использовали двойной прыжок и с момента прыжка прошло пол секунды
-
-                if self.y_vel not in [0, 0.5]: #Если уже находится в прыжке, 0.5 проскакивает иногда если он стоит
-                    self.doubleJump = True
-
-                self.y_vel = -JUMP_POWER
-                self.onGround = False
-                self.doubleJump_timer = time.get_ticks() #Засекаем время с начала прыжка
-
-
+        # # ПРЫЖОК
+        # if keys[K_SPACE]:
+        #     # if self.onGround:  # прыгаем только когда можем оттолкнуться от земли
+        #     if self.onGround or (not self.doubleJump and time.get_ticks() - self.doubleJump_timer >= 500):  # прыгаем только когда можем оттолкнуться от земли, не использовали двойной прыжок и с момента прыжка прошло пол секунды
+        #
+        #         if self.y_vel not in [0, 0.5]: #Если уже находится в прыжке, 0.5 проскакивает иногда если он стоит
+        #             self.doubleJump = True
+        #
+        #         self.y_vel = -JUMP_POWER
+        #         self.onGround = False
+        #         self.doubleJump_timer = time.get_ticks() #Засекаем время с начала прыжка
 
         # ГРАВИТАЦИЯ
         if not self.onGround:
@@ -92,9 +88,18 @@ class Player(sprite.Sprite):
         self.rect.x += self.x_vel
         self.collide(self.x_vel, 0, platform_group)
 
-        #АТАКА
+        # АТАКА
         self.weapon.update()
 
+    def jump(self):
+        if self.onGround or not self.doubleJump:  # прыгаем только когда можем оттолкнуться от земли, не использовали двойной прыжок и с момента прыжка прошло пол секунды
+
+            if self.y_vel not in [0, 0.5]:  # Если уже находится в прыжке, 0.5 проскакивает иногда если он стоит
+                self.doubleJump = True
+
+            self.y_vel = -JUMP_POWER
+            self.onGround = False
+            #self.doubleJump_timer = time.get_ticks()  # Засекаем время с начала прыжка
 
     def animation(self):
         if self.x_vel > 0:
@@ -103,17 +108,12 @@ class Player(sprite.Sprite):
             self.image = transform.flip(self.images[self.countanimation], True, False)
 
         # self.image.fill(Color(COLOR))
-        #self.rect = self.image.get_rect(bottom = self.rect.bottom, centerx = self.rect.centerx)
+        # self.rect = self.image.get_rect(bottom = self.rect.bottom, centerx = self.rect.centerx)
 
-
-        if self.countanimation != len(self.images)-1:
-            self.countanimation +=1
+        if self.countanimation != len(self.images) - 1:
+            self.countanimation += 1
         else:
             self.countanimation = 0
-
-
-
-
 
     # ПРОВЕРКА СТОЛКНОВЕНИЙ
     def collide(self, x_vel, y_vel, platform_group):

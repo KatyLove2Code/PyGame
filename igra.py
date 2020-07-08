@@ -28,6 +28,7 @@ treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
 portal_group = pygame.sprite.Group()
 
+background = image.load("textures/background.png")
 
 def draw_level(screen):
     x, y = 0, 0
@@ -94,13 +95,16 @@ def main():
             if e.type == PORTAL:
                 num_of_level += 1
                 restart_level(hero, screen)
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+                hero.jump()
 
         if hero.health <= 0:
             restart_level(hero, screen)
         print()
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
-        surf.fill((255, 255, 255))
+        #
+        surf.blit(background, (0,0))
 
         spike_group.update(hero, player_group)
         hero.update(platform_group)  # передвижение
