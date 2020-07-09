@@ -81,6 +81,7 @@ def restart_level(hero, screen):
 
 
 def main():
+    death_delay = 0
     current_bullets = 10
     screen = pygame.display.set_mode(display, FULLSCREEN)
     pygame.display.set_caption("ultra_game")
@@ -110,8 +111,12 @@ def main():
                 current_bullets -= (1 if current_bullets > 0 else 0)
 
         if hero.health <= 0:
-            restart_level(hero, screen)
-            current_bullets = 10
+            if death_delay == 50:
+                restart_level(hero, screen)
+                current_bullets = 10
+                death_delay = 0
+            death_delay += 1
+
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
         #
@@ -127,7 +132,7 @@ def main():
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
                 e.rect.y - (0 if hero.rect.y < 400 else 280 if hero.rect.y > 680 else hero.rect.y - 400)))
-        draw.rect(screen, (0, 255, 0), (460, 125, hero.health*8, 15)) #Шкала XP
+        draw.rect(screen, (0, 255, 0), (460, 125, (hero.health * 8 if hero.health > 0 else 0), 15)) #Шкала XP
         pygame.display.update()  # обновление и вывод всех изменений на экран
         fps.tick(60)
     pygame.quit()
