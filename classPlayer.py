@@ -171,7 +171,7 @@ class Player(sprite.Sprite):
         если сталкивается то удалить моба
         удалить спрайт"""
         for e in enemy_group:
-            if self.rect.x-100 < e.rect.x and self.rect.x+100 < e.rect.x and self.rect.y-100 < e.rect.y and self.rect.y+100 < e.rect.y:
+            if self.rect.x-100 < e.rect.x and self.rect.x+100 > e.rect.x and self.rect.y-100 < e.rect.y and self.rect.y+100 > e.rect.y:
                 e.kill()
 
 
