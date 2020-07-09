@@ -105,22 +105,14 @@ def main():
                 if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                     hero.jump()
 
-<<<<<<< Updated upstream
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_n:
-                hero.explosion(enemy_group)
+                if e.type == pygame.KEYDOWN and e.key == pygame.K_n:
+                    hero.explosion(enemy_group)
 
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_b:
-                hero.shoot_animation_status = True
-                if current_bullets:
-                    Bullet((weapon_group, all_sprites), hero)
-                current_bullets -= (1 if current_bullets > 0 else 0)
-=======
                 if e.type == pygame.KEYDOWN and e.key == pygame.K_b:
                     hero.shoot_animation_status = True
                     if current_bullets:
                         Bullet((weapon_group, all_sprites), hero)
                     current_bullets -= (1 if current_bullets > 0 else 0)
->>>>>>> Stashed changes
 
         if hero.health <= 0:
             disable_keyboard = True
@@ -133,9 +125,7 @@ def main():
 
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
-        #
         surf.blit(background, (0, 0))
-
         spike_group.update(hero, player_group)
         hero.update(platform_group)  # передвижение
         portal_group.update()
