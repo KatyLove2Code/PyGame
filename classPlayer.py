@@ -40,7 +40,7 @@ images = [
     transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height))
 ]
-died_image = image.load("textures/died.png")
+died_image = transform.scale(image.load("textures/died.png"), (gg_wight, gg_height))
 stand_image = transform.scale(image.load("textures/stand.png"), (gg_wight, gg_height))
 shoot_image = transform.scale(image.load("textures/shoot_right.png"), (gg_wight, gg_height))
 
@@ -75,7 +75,6 @@ class Player(sprite.Sprite):
 
     def update(self, platform_group):
         keys = key.get_pressed()
-        self.animation()
         self.y_max = min(self.y_max,
                          self.rect.y)  # пока он не приземлится выщитываем наивысшую точку в которой он находился
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
@@ -100,6 +99,7 @@ class Player(sprite.Sprite):
             self.y_vel = 0
             self.doubleJump = False
 
+        self.animation()
         self.onGround = False  # Мы не знаем, когда мы на земле
         self.rect.y += self.y_vel
         self.collide(0, self.y_vel, platform_group)
@@ -124,7 +124,9 @@ class Player(sprite.Sprite):
                 self.image = shoot_image
             else:
                 self.image = transform.flip(shoot_image, True, False)
-
+        elif self.health <= 0:
+            self.x_vel = 0
+            self.image = died_image
         elif self.x_vel > 0:
             self.image = self.images[self.count_animation]
         elif self.x_vel < 0:
