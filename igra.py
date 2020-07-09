@@ -81,7 +81,7 @@ def restart_level(hero, screen):
 
 
 def main():
-    current_bullets = 5
+    current_bullets = 10
     screen = pygame.display.set_mode(display, FULLSCREEN)
     pygame.display.set_caption("ultra_game")
     global num_of_level
@@ -111,6 +111,7 @@ def main():
 
         if hero.health <= 0:
             restart_level(hero, screen)
+            current_bullets = 10
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
         #

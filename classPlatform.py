@@ -48,7 +48,7 @@ class Platform(sprite.Sprite):
         # self.image = image.load("textures/block.jpg")
         #self.image.fill(self.image)
 
-portal = image.load("textures/portal1.jpg")
+portal = image.load("textures/portal2.png")
 portal = transform.scale(portal, (PLATFORM_WIDTH, PLATFORM_HEIGHT) )
 
 class Portal(sprite.Sprite):
