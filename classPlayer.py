@@ -177,16 +177,13 @@ class Player(sprite.Sprite):
         self.x_vel = 0
         self.onGround = False
 
-    def explosion(self, enemy_group):
+    def explosion(self):
         """запускается нажатием кнопки "c"
         создать спрайт с центром в центре спрайтя игрока, который в каждую сторону на блок от игроа отходит
         проверить на столкновение этого спрайта с мобом
         запустить анимацию
         если сталкивается то удалить моба
         удалить спрайт"""
-        for e in enemy_group:
-            if self.rect.x-100 < e.rect.x and self.rect.x+100 < e.rect.x and self.rect.y-100 < e.rect.y and self.rect.y+100 < e.rect.y:
-                e.kill()
 
 
 if __name__ == "__main__":
