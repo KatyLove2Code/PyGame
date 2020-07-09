@@ -56,7 +56,6 @@ def draw_level(screen):
             elif col == "6":
                 Portal((portal_group, all_sprites), x, y)
 
-
             elif col == "x":
                 x1, y1 = x, y
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
