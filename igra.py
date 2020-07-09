@@ -103,6 +103,9 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 hero.jump()
 
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_n:
+                hero.explosion(enemy_group)
+
             if e.type == pygame.KEYDOWN and e.key == pygame.K_b:
                 hero.shoot_animation_status = True
                 if current_bullets:
