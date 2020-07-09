@@ -44,6 +44,3 @@ class Bullet(sprite.Sprite):
 
 
 
-
-
-
