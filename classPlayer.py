@@ -2,7 +2,7 @@ import pygame
 from pygame import *
 #from classWeapon import Weapon
 
-SPEED = 7
+SPEED = 5
 gg_wight = 25
 gg_height = 50
 COLOR = "#888888"
@@ -16,26 +16,11 @@ images = [
     transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right1.png"), (gg_wight, gg_height)),
 
     transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right2.png"), (gg_wight, gg_height)),
 
-    transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
-    transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height))
@@ -136,7 +121,8 @@ class Player(sprite.Sprite):
             self.image = stand_image
 
         if self.count_animation != len(self.images) - 1:
-            self.count_animation += 1
+            if self.onGround:
+                self.count_animation += 1
         else:
             self.count_animation = 0
         self.count_shoot_animation += 1

@@ -80,6 +80,7 @@ def restart_level(hero, screen):
 
 
 def main():
+    disable_keyboard = False
     death_delay = 0
     current_bullets = 10
     screen = pygame.display.set_mode(display, FULLSCREEN)
@@ -96,13 +97,15 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 game = False
 
-            if e.type == PORTAL:
-                num_of_level += 1
-                restart_level(hero, screen)
+            if not disable_keyboard:
+                if e.type == PORTAL:
+                    num_of_level += 1
+                    restart_level(hero, screen)
 
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
-                hero.jump()
+                if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+                    hero.jump()
 
+<<<<<<< Updated upstream
             if e.type == pygame.KEYDOWN and e.key == pygame.K_n:
                 hero.explosion(enemy_group)
 
@@ -111,9 +114,18 @@ def main():
                 if current_bullets:
                     Bullet((weapon_group, all_sprites), hero)
                 current_bullets -= (1 if current_bullets > 0 else 0)
+=======
+                if e.type == pygame.KEYDOWN and e.key == pygame.K_b:
+                    hero.shoot_animation_status = True
+                    if current_bullets:
+                        Bullet((weapon_group, all_sprites), hero)
+                    current_bullets -= (1 if current_bullets > 0 else 0)
+>>>>>>> Stashed changes
 
         if hero.health <= 0:
+            disable_keyboard = True
             if death_delay == 50:
+                disable_keyboard = False
                 restart_level(hero, screen)
                 current_bullets = 10
                 death_delay = 0
@@ -134,7 +146,7 @@ def main():
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
                 e.rect.y - (0 if hero.rect.y < 400 else 280 if hero.rect.y > 680 else hero.rect.y - 400)))
-        draw.rect(screen, (0, 255, 0), (460, 125, (hero.health * 8 if hero.health > 0 else 0), 15)) #Шкала XP
+        draw.rect(screen, (200, 0, 0), (460, 125, (hero.health * 8.34 if hero.health > 0 else 0), 15)) #Шкала XP
         pygame.display.update()  # обновление и вывод всех изменений на экран
         fps.tick(60)
     pygame.quit()
