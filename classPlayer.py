@@ -40,7 +40,7 @@ images = [
     transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height)),
     transform.scale(image.load("textures/right3.png"), (gg_wight, gg_height))
 ]
-died_image = transform.scale(image.load("textures/died.png"), (gg_wight, gg_height))
+died_image = transform.scale(image.load("textures/died.png"), (gg_wight, 20))
 stand_image = transform.scale(image.load("textures/stand.png"), (gg_wight, gg_height))
 shoot_image = transform.scale(image.load("textures/shoot_right.png"), (gg_wight, gg_height))
 
@@ -119,6 +119,7 @@ class Player(sprite.Sprite):
             self.onGround = False
 
     def animation(self):
+        self.rect = self.image.get_rect(x=self.rect.x, y=self.rect.y)
         if self.shoot_animation_status:
             if self.direction > 0:
                 self.image = shoot_image
@@ -133,9 +134,6 @@ class Player(sprite.Sprite):
             self.image = transform.flip(self.images[self.count_animation], True, False)
         else:
             self.image = stand_image
-
-        # self.image.fill(Color(COLOR))
-        # self.rect = self.image.get_rect(bottom = self.rect.bottom, centerx = self.rect.centerx)
 
         if self.count_animation != len(self.images) - 1:
             self.count_animation += 1
