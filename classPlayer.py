@@ -6,7 +6,7 @@ SPEED = 5
 gg_wight = 25
 gg_height = 50
 COLOR = "#888888"
-JUMP_POWER = 10
+JUMP_POWER = 8
 GRAVITY = 0.5  # величина гравитации
 at_wight = 90
 at_height = 140
@@ -125,7 +125,7 @@ class Player(sprite.Sprite):
                 self.count_animation += 1
         else:
             self.count_animation = 0
-        if self.count_shoot_animation == 25:
+        if self.count_shoot_animation == 10:
             Bullet((weapon_group, all_sprites), self)
             self.count_shoot_animation = 0
             self.shoot_animation_status = False
