@@ -17,6 +17,7 @@ surf = pygame.Surface((1000, 800))
 bg_color = "#000000"
 fps = pygame.time.Clock()
 x1, y1 = 0, 0
+current_bullets = 10
 
 num_of_level = 0  # 0 -> первый уровень (n-1 -> n уровень)
 
@@ -85,12 +86,15 @@ def restart_level(hero, screen):
             s.kill()
     start_level(screen)
     hero.death(x1, y1)
+    global current_bullets
+    current_bullets = 10
 
 
 def main():
+    global current_bullets
+    current_bullets = 10
     disable_keyboard = False
     death_delay = 0
-    current_bullets = 10
     screen = pygame.display.set_mode(display, FULLSCREEN)
     pygame.display.set_caption("ultra_game")
     global num_of_level
@@ -117,9 +121,8 @@ def main():
                     hero.explosion(enemy_group)
 
                 if e.type == pygame.KEYDOWN and e.key == pygame.K_b:
-                    hero.shoot_animation_status = True
                     if current_bullets:
-                        Bullet((weapon_group, all_sprites), hero)
+                        hero.shoot_animation_status = True
                     current_bullets -= (1 if current_bullets > 0 else 0)
 
         if hero.health <= 0:
@@ -135,7 +138,7 @@ def main():
         screen.blit(surf, (460, 140))
         surf.blit(background, (0, 0))
         spike_group.update(hero, player_group)
-        hero.update(platform_group)  # передвижение
+        hero.update(platform_group, weapon_group, all_sprites)  # передвижение
         portal_group.update()
         enemy_group.update(hero)
         for b in weapon_group:
