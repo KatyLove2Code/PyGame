@@ -15,7 +15,7 @@ H = 1080  # Высота окна
 display = (W, H)
 surf = pygame.Surface((1000, 800))
 bg_color = "#000000"
-fps = pygame.time.Clock()
+fps = pygame. time.Clock()
 x1, y1 = 0, 0
 current_bullets = 10
 
