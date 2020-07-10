@@ -60,8 +60,7 @@ class Player(sprite.Sprite):
 
     def update(self, platform_group):
         keys = key.get_pressed()
-        self.y_max = min(self.y_max,
-                         self.rect.y)  # пока он не приземлится выщитываем наивысшую точку в которой он находился
+        self.y_max = min(self.y_max, self.rect.y)  # пока он не приземлится выщитываем наивысшую точку в которой он находился
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
         if keys[K_LEFT]:
             self.x_vel = -SPEED  # Лево = x- n
