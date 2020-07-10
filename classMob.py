@@ -136,7 +136,7 @@ class Ray(sprite.Sprite):
             if self.direction:
                 self.rect = self.image.get_rect(midright=(self.laser.rect.midleft[0] + 13, self.laser.rect.midleft[1]))
                 if sprite.collide_rect(self, p):
-                    self.image = transform.scale(image.load('textures/laser.png'), (self.laser.start_x - p.rect.midright[0], 3))
+                    self.image = transform.scale(image.load('textures/laser.png'), (self.laser.start_x - p.rect.midright[0] + PLATFORM_WIDTH // 2, 3))
                     self.ind = True
             else:
                 self.rect = self.image.get_rect(midleft=(self.laser.rect.midright[0] - 13, self.laser.rect.midright[1]))
