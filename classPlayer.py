@@ -125,7 +125,7 @@ class Player(sprite.Sprite):
                 self.count_animation += 1
         else:
             self.count_animation = 0
-        if self.count_shoot_animation == 25:
+        if self.count_shoot_animation == 10:
             Bullet((weapon_group, all_sprites), self)
             self.count_shoot_animation = 0
             self.shoot_animation_status = False
