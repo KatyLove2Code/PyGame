@@ -4,7 +4,7 @@ from classPlayer import Player, images  # импорт грока и файла
 from classPlatform import *
 from classSpikes import Spikes
 from levels import levels
-from classMob import Mob
+from classMob import Mob, Laser, Ray
 from classWeapon import Bullet
 
 pygame.init()
@@ -29,6 +29,8 @@ treasure_group = pygame.sprite.Group()
 lever_group = pygame.sprite.Group()
 portal_group = pygame.sprite.Group()
 weapon_group = pygame.sprite.Group()
+laser_group = pygame.sprite.Group()
+ray_group = pygame.sprite.Group()
 
 background = image.load("textures/background.png")
 
@@ -42,13 +44,19 @@ def draw_level(screen):
                 Platform((platform_group, all_sprites), col, x, y)
 
             elif col == "1":
-                Spikes(("Spikes_CD.png", PLATFORM_WIDTH, PLATFORM_HEIGHT, False),
-                       (spike_group, all_sprites), (x, y), 0)
+                Spikes((spike_group, all_sprites), (x, y))
+
             elif col == "2":
                 Mob((enemy_group, all_sprites), x, y)
 
             elif col == "3":
                 Platform((treasure_group, all_sprites), col, x, y)
+
+            elif col == "4":
+                Laser((laser_group, all_sprites), x, y, 0)
+
+            elif col == "8":
+                Laser((laser_group, all_sprites), x, y, 1)
 
             elif col == "5":
                 Platform((lever_group, all_sprites), col, x, y)
@@ -116,7 +124,7 @@ def main():
 
         if hero.health <= 0:
             disable_keyboard = True
-            if death_delay == 50:
+            if death_delay == 30:
                 disable_keyboard = False
                 restart_level(hero, screen)
                 current_bullets = 10
@@ -131,7 +139,11 @@ def main():
         portal_group.update()
         enemy_group.update(hero)
         for b in weapon_group:
-            b.update(enemy_group, platform_group)
+            b.update(enemy_group, platform_group, laser_group)
+        for ls in laser_group:
+            ls.update(hero, ray_group, all_sprites)
+        for r in ray_group:
+            r.update(platform_group, hero)
         for e in all_sprites:
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
