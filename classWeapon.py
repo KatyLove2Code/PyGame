@@ -38,7 +38,7 @@ class Bullet(sprite.Sprite):
         self.rect.x += self.direction * BULLET_SPEED
         for e in enemy_group:
             if sprite.collide_rect(self, e):
-                e.health -= 20
+                e.health -= 30
                 e.damage_status = True
                 self.kill()
         for ls in laser_group:
