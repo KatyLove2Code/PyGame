@@ -90,7 +90,7 @@ def restart_level(hero, screen):
 def main():
     disable_keyboard = False
     death_delay = 0
-    current_bullets = 10
+    current_bullets = 20
     screen = pygame.display.set_mode(display, FULLSCREEN)
     pygame.display.set_caption("ultra_game")
     global num_of_level
@@ -127,7 +127,7 @@ def main():
             if death_delay == 30:
                 disable_keyboard = False
                 restart_level(hero, screen)
-                current_bullets = 10
+                current_bullets = 20
                 death_delay = 0
             death_delay += 1
 
