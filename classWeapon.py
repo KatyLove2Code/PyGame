@@ -34,11 +34,16 @@ class Bullet(sprite.Sprite):
         else:
             self.rect.midright = hero.rect.midleft
 
-    def update(self, enemy_group, platform_group):
+    def update(self, enemy_group, platform_group, laser_group):
         self.rect.x += self.direction * BULLET_SPEED
         for e in enemy_group:
             if sprite.collide_rect(self, e):
-                e.kill()
+                e.health -= 20
+                e.damage_status = True
+                self.kill()
+        for ls in laser_group:
+            if sprite.collide_rect(self, ls):
+                ls.kill()
                 self.kill()
         for p in platform_group:
             if sprite.collide_rect(self, p):
