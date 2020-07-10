@@ -6,7 +6,7 @@ PLATFORM_WIDTH = 30
 PLATFORM_HEIGHT = 30
 ANIMATION_SLOWNESS = 20
 LASER_ANIMATION_SLOWNESS = 10
-RAY_SPEED = 10
+RAY_SPEED = 50
 RAY_WIDTH = 15
 RAY_DISTANCE = 17
 
@@ -120,13 +120,13 @@ class Ray(sprite.Sprite):
         self.rect = self.image.get_rect()
         self.direction = laser.direction
         self.laser = laser
+        self.count = 1
         if self.direction:
-            self.rect.midright = laser.rect.midleft
+            self.rect = self.image.get_rect(midright=laser.rect.midleft)
         else:
-            self.rect.midleft = laser.rect.midright
+            self.rect = self.image.get_rect(midleft=laser.rect.midright)
 
     def update(self, platform_group, hero):
-        self.rect.x += -self.direction * RAY_SPEED
         if sprite.collide_rect(self, hero):
             hero.health -= 50
             self.kill()
@@ -134,9 +134,17 @@ class Ray(sprite.Sprite):
             if sprite.collide_rect(self, p):
                 self.kill()
         self.animation()
+        if self.direction:
+            self.rect = self.image.get_rect(midright=(self.laser.rect.midleft[0] + 13, self.laser.rect.midleft[1]))
+        else:
+            self.rect = self.image.get_rect(midleft=(self.laser.rect.midright[0] - 13, self.laser.rect.midright[1]))
 
     def animation(self):
-        self.image = ray_image
+        if self.direction:
+            self.image = transform.scale(image.load('textures/laser.png'), (self.count * RAY_SPEED, 3))
+        else:
+            self.image = transform.flip(transform.scale(image.load('textures/laser.png'), (self.count * RAY_SPEED, 3)), True, False)
+        self.count += 1
 
 
 class Laser(sprite.Sprite):
@@ -152,13 +160,14 @@ class Laser(sprite.Sprite):
         self.move_status = True
         self.count = 0
         self.shoot_timer = time.get_ticks()
+        self.in_range = False
 
     def update(self, hero, ray_group, all_sprites):
         if self.move_status:
             self.rect.y += self.y_vel
         if abs(self.rect.y - self.start_y) >= self.height:
             self.y_vel *= -1
-        if -15 < self.rect.y - hero.rect.y < 35 and time.get_ticks() - self.shoot_timer >= 1500 and (self.rect.x - hero.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction or hero.rect.x - self.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction == 0):
+        if -15 < self.rect.y - hero.rect.y < 35 and time.get_ticks() - self.shoot_timer >= 1500 and (hero.rect.x < self.rect.x and self.rect.x - hero.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction or hero.rect.x - self.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction == 0 and hero.rect.x > self.rect.x):
             self.move_status = False
             self.shoot_timer = time.get_ticks()
         self.animation(ray_group, all_sprites)
