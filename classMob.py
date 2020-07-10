@@ -6,7 +6,7 @@ PLATFORM_WIDTH = 30
 PLATFORM_HEIGHT = 30
 ANIMATION_SLOWNESS = 20
 LASER_ANIMATION_SLOWNESS = 10
-RAY_SPEED = 50
+RAY_SPEED = 40
 RAY_WIDTH = 15
 RAY_DISTANCE = 17
 
@@ -121,6 +121,7 @@ class Ray(sprite.Sprite):
         self.direction = laser.direction
         self.laser = laser
         self.count = 1
+        self.ind = False
         if self.direction:
             self.rect = self.image.get_rect(midright=laser.rect.midleft)
         else:
@@ -130,17 +131,28 @@ class Ray(sprite.Sprite):
         if sprite.collide_rect(self, hero):
             hero.health -= 50
             self.kill()
-        for p in platform_group:
-            if sprite.collide_rect(self, p):
-                self.kill()
         self.animation()
+        for p in platform_group:
+            if self.direction:
+                self.rect = self.image.get_rect(midright=(self.laser.rect.midleft[0] + 13, self.laser.rect.midleft[1]))
+                if sprite.collide_rect(self, p):
+                    self.image = transform.scale(image.load('textures/laser.png'), (self.laser.start_x - p.rect.midright[0], 3))
+                    self.ind = True
+            else:
+                self.rect = self.image.get_rect(midleft=(self.laser.rect.midright[0] - 13, self.laser.rect.midright[1]))
+                if sprite.collide_rect(self, p):
+                    self.image = transform.flip(transform.scale(image.load('textures/laser.png'), (p.rect.midleft[0] - self.laser.start_x - PLATFORM_WIDTH // 2, 3)), True, False)
+                    self.ind = True
         if self.direction:
             self.rect = self.image.get_rect(midright=(self.laser.rect.midleft[0] + 13, self.laser.rect.midleft[1]))
         else:
             self.rect = self.image.get_rect(midleft=(self.laser.rect.midright[0] - 13, self.laser.rect.midright[1]))
 
     def animation(self):
-        if self.direction:
+        if self.ind:
+            self.kill()
+            self.ind = False
+        elif self.direction:
             self.image = transform.scale(image.load('textures/laser.png'), (self.count * RAY_SPEED, 3))
         else:
             self.image = transform.flip(transform.scale(image.load('textures/laser.png'), (self.count * RAY_SPEED, 3)), True, False)
