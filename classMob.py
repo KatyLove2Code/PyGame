@@ -8,6 +8,7 @@ ANIMATION_SLOWNESS = 20
 LASER_ANIMATION_SLOWNESS = 10
 RAY_SPEED = 10
 RAY_WIDTH = 15
+RAY_DISTANCE = 17
 
 '''spritesheet = image.load("textures/terrex_0.png")
 images = [
@@ -157,7 +158,7 @@ class Laser(sprite.Sprite):
             self.rect.y += self.y_vel
         if abs(self.rect.y - self.start_y) >= self.height:
             self.y_vel *= -1
-        if -15 < self.rect.y - hero.rect.y < 35 and time.get_ticks() - self.shoot_timer >= 1500 and (self.rect.x - hero.rect.x < 300 and self.direction or hero.rect.x - self.rect.x < 300 and self.direction == 0):
+        if -15 < self.rect.y - hero.rect.y < 35 and time.get_ticks() - self.shoot_timer >= 1500 and (self.rect.x - hero.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction or hero.rect.x - self.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction == 0):
             self.move_status = False
             self.shoot_timer = time.get_ticks()
         self.animation(ray_group, all_sprites)
