@@ -1,6 +1,6 @@
 import pygame
 from pygame import *
-#from classWeapon import Weapon
+from classWeapon import Bullet
 
 SPEED = 5
 gg_wight = 25
@@ -58,7 +58,7 @@ class Player(sprite.Sprite):
         #self.weapon = Weapon(groups[1], self)
         self.attack = False
 
-    def update(self, platform_group):
+    def update(self, platform_group, weapon_group, all_sprites):
         keys = key.get_pressed()
         self.y_max = min(self.y_max, self.rect.y)  # пока он не приземлится выщитываем наивысшую точку в которой он находился
         # ДВИЖЕНИЕ ПО ГОРИЗОНТАЛИ
@@ -83,7 +83,7 @@ class Player(sprite.Sprite):
             self.y_vel = 0
             self.doubleJump = False
 
-        self.animation()
+        self.animation(weapon_group, all_sprites)
         self.onGround = False  # Мы не знаем, когда мы на земле
         self.rect.y += self.y_vel
         self.collide(0, self.y_vel, platform_group)
@@ -102,13 +102,14 @@ class Player(sprite.Sprite):
             self.y_vel = -JUMP_POWER
             self.onGround = False
 
-    def animation(self):
+    def animation(self, weapon_group, all_sprites):
         self.rect = self.image.get_rect(x=self.rect.x, y=self.rect.y)
         if self.shoot_animation_status:
             if self.direction > 0:
                 self.image = shoot_image
             else:
                 self.image = transform.flip(shoot_image, True, False)
+            self.count_shoot_animation += 1
         elif self.health <= 0:
             self.x_vel = 0
             self.image = died_image
@@ -124,8 +125,8 @@ class Player(sprite.Sprite):
                 self.count_animation += 1
         else:
             self.count_animation = 0
-        self.count_shoot_animation += 1
-        if self.count_shoot_animation == 50:
+        if self.count_shoot_animation == 25:
+            Bullet((weapon_group, all_sprites), self)
             self.count_shoot_animation = 0
             self.shoot_animation_status = False
 
