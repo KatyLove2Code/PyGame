@@ -1,4 +1,5 @@
 import pygame
+from pygame import *
 from load_file_lib import load_image, scales_and_mirrors
 
 WIDTH = 800
@@ -12,9 +13,9 @@ all_sprites = pygame.sprite.Group()
 
 
 class Spikes(pygame.sprite.Sprite):
-    def __init__(self, image_tuple, group, coords, spike_speed=0):
+    def __init__(self, group, coords, spike_speed=0):
         super().__init__(group)
-        self.image = scales_and_mirrors(image_tuple[0], image_tuple[1], image_tuple[2], image_tuple[3])
+        self.image = transform.scale(image.load("textures/spikes.png"), (30, 30))
         self.rect = self.image.get_rect().move(coords)
         self.init_coord = coords  # spike position
         self.spike_speed = spike_speed  # it would be more appropriate to name it "spike slowness"
