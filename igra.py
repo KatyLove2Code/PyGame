@@ -45,7 +45,7 @@ def draw_level(screen):
                 Platform((platform_group, all_sprites), col, x, y)
 
             elif col == "1":
-                Spikes((spike_group, all_sprites), (x, y))
+                Spikes((spike_group, all_sprites), x, y)
 
             elif col == "2":
                 Mob((enemy_group, all_sprites), x, y)
@@ -67,12 +67,9 @@ def draw_level(screen):
 
             elif col == "x":
                 x1, y1 = x, y
-            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
-        y += PLATFORM_HEIGHT  # то же самое и с высотой
-        x = 0  # на каждой новой строчке начинаем с нуля
-    # Отрисовка уровня и создание платформ и спрайтов отдельной функцией или классом
-    # ПРИ ПРОИГРЫШЕ МОЖНО УБИТЬ ОСТАВШХСЯ МОБОВ ВОИЗБЕЖАНИЕ ДУБЛИРОВАНИЯ
-    # mob.kill() - убъёт спрайт во всех группах
+            x += PLATFORM_WIDTH
+        y += PLATFORM_HEIGHT
+        x = 0
 
 
 def start_level(screen):
@@ -137,7 +134,7 @@ def main():
         screen.fill(pygame.Color("black"))  # специально для обновления экрана
         screen.blit(surf, (460, 140))
         surf.blit(background, (0, 0))
-        spike_group.update(hero, player_group)
+        spike_group.update(hero)
         hero.update(platform_group, weapon_group, all_sprites)  # передвижение
         portal_group.update()
         enemy_group.update(hero)
