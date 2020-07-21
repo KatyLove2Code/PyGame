@@ -1,9 +1,9 @@
 import pygame
 from pygame import *
 from random import choice
+from constants import *
 
-PLATFORM_WIDTH = 30
-SPIKE_SPEED = 1
+
 spike_image = transform.scale(image.load("textures/spikes1.png"), (30, 30))
 
 
@@ -21,7 +21,10 @@ class Spikes(pygame.sprite.Sprite):
     def update(self, hero):
         if sprite.collide_rect(self, hero):
             hero.damage()
-        if self.spike_status < 0 and time.get_ticks() - self.delay >= 2000 or self.height != 0:
+        if self.height == 0 or self.height == 30:
+            if time.get_ticks() - self.delay >= SPIKE_DELAY * 1000:
+                self.animation()
+        else:
             self.animation()
 
     def animation(self):

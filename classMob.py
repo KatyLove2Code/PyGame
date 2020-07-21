@@ -1,21 +1,8 @@
 from pygame import *
 from random import choice
+from constants import *
 from random import randint as r
 
-PLATFORM_WIDTH = 30
-PLATFORM_HEIGHT = 30
-ANIMATION_SLOWNESS = 20
-LASER_ANIMATION_SLOWNESS = 10
-RAY_SPEED = 40
-RAY_WIDTH = 15
-RAY_DISTANCE = 17
-
-'''spritesheet = image.load("textures/terrex_0.png")
-images = [
-    transform.scale(spritesheet.subsurface((25, 10, 60, 65)), (PLATFORM_WIDTH, PLATFORM_HEIGHT)),
-    transform.scale(spritesheet.subsurface((75, 10, 60, 65)), (PLATFORM_WIDTH, PLATFORM_HEIGHT))
-
-]'''
 
 move_animation = [
     transform.scale(image.load('textures/moveglaz1.png'), (PLATFORM_WIDTH, PLATFORM_HEIGHT)),
@@ -121,41 +108,43 @@ class Ray(sprite.Sprite):
         self.direction = laser.direction
         self.laser = laser
         self.count = 1
-        self.ind = False
+        self.is_alive = True
         if self.direction:
             self.rect = self.image.get_rect(midright=laser.rect.midleft)
         else:
             self.rect = self.image.get_rect(midleft=laser.rect.midright)
 
     def update(self, platform_group, hero):
-        if sprite.collide_rect(self, hero):
-            hero.health -= 50
-            self.kill()
         self.animation()
-        for p in platform_group:
+        if self.is_alive:
             if self.direction:
                 self.rect = self.image.get_rect(midright=(self.laser.rect.midleft[0] + 13, self.laser.rect.midleft[1]))
-                if sprite.collide_rect(self, p):
-                    self.image = transform.scale(image.load('textures/laser.png'), (self.laser.start_x - p.rect.midright[0] + PLATFORM_WIDTH // 2, 3))
-                    self.ind = True
             else:
                 self.rect = self.image.get_rect(midleft=(self.laser.rect.midright[0] - 13, self.laser.rect.midright[1]))
-                if sprite.collide_rect(self, p):
-                    self.image = transform.flip(transform.scale(image.load('textures/laser.png'), (p.rect.midleft[0] - self.laser.start_x - PLATFORM_WIDTH // 2, 3)), True, False)
-                    self.ind = True
-        if self.direction:
-            self.rect = self.image.get_rect(midright=(self.laser.rect.midleft[0] + 13, self.laser.rect.midleft[1]))
-        else:
-            self.rect = self.image.get_rect(midleft=(self.laser.rect.midright[0] - 13, self.laser.rect.midright[1]))
+            if sprite.collide_rect(self, hero):
+                hero.damage()
+                self.is_alive = False
+            else:
+                for p in platform_group:
+                    if sprite.collide_rect(self, p):
+                        if self.direction:
+                            self.image = transform.scale(ray_image, (self.laser.start_x - p.rect.midright[0] + PLATFORM_WIDTH // 2, 3))
+                        else:
+                            self.image = transform.scale(ray_image, (p.rect.midleft[0] - self.laser.start_x - PLATFORM_WIDTH // 2, 3))
+                        self.is_alive = False
+            if self.direction:
+                self.rect = self.image.get_rect(midright=(self.laser.rect.midleft[0] + 13, self.laser.rect.midleft[1]))
+            else:
+                self.rect = self.image.get_rect(midleft=(self.laser.rect.midright[0] - 13, self.laser.rect.midright[1]))
 
     def animation(self):
-        if self.ind:
+        if not self.is_alive:
             self.kill()
-            self.ind = False
+            self.laser.move_status = True
         elif self.direction:
-            self.image = transform.scale(image.load('textures/laser.png'), (self.count * RAY_SPEED, 3))
+            self.image = transform.scale(ray_image, (self.count * RAY_SPEED, 3))
         else:
-            self.image = transform.flip(transform.scale(image.load('textures/laser.png'), (self.count * RAY_SPEED, 3)), True, False)
+            self.image = transform.scale(ray_image, (self.count * RAY_SPEED, 3))
         self.count += 1
 
 
@@ -179,18 +168,17 @@ class Laser(sprite.Sprite):
             self.rect.y += self.y_vel
         if abs(self.rect.y - self.start_y) >= self.height:
             self.y_vel *= -1
-        if -15 < self.rect.y - hero.rect.y < 35 and time.get_ticks() - self.shoot_timer >= 1500 and (hero.rect.x < self.rect.x and self.rect.x - hero.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction or hero.rect.x - self.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction == 0 and hero.rect.x > self.rect.x):
+        if -15 < self.rect.y - hero.rect.y < 35 and time.get_ticks() - self.shoot_timer >= 500 and (hero.rect.x < self.rect.x and self.rect.x - hero.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction or hero.rect.x - self.rect.x < RAY_DISTANCE * PLATFORM_WIDTH and self.direction == 0 and hero.rect.x > self.rect.x):
             self.move_status = False
             self.shoot_timer = time.get_ticks()
-        self.animation(ray_group, all_sprites)
+        if not self.move_status and not ray_group:
+            self.animation(ray_group, all_sprites)
 
     def animation(self, ray_group, all_sprites):
-        if self.move_status:
+        self.image = (laser_animation[self.count // LASER_ANIMATION_SLOWNESS] if self.direction else transform.flip(laser_animation[self.count // LASER_ANIMATION_SLOWNESS], True, False))
+        self.count += 1
+        if self.count == len(laser_animation) * LASER_ANIMATION_SLOWNESS - 1:
+            self.count = 0
+            self.move_status = False
+            Ray((ray_group, all_sprites), self)
             self.image = (laser_static if self.direction else transform.flip(laser_static, True, False))
-        else:
-            self.image = (laser_animation[self.count // LASER_ANIMATION_SLOWNESS] if self.direction else transform.flip(laser_animation[self.count // LASER_ANIMATION_SLOWNESS], True, False))
-            self.count += 1
-            if self.count == len(laser_animation) * LASER_ANIMATION_SLOWNESS - 1:
-                self.count = 0
-                self.move_status = True
-                Ray((ray_group, all_sprites), self)

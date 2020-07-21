@@ -1,20 +1,15 @@
 import pygame
 from pygame import *
-from classPlayer import Player, images  # импорт грока и файла
+from classPlayer import Player
 from classPlatform import *
 from classSpikes import Spikes
 from levels import levels
-from classMob import Mob, Laser, Ray
-from classWeapon import Bullet
+from classMob import Mob, Laser
+from constants import *
 
 pygame.init()
-
-# Объявляем переменные
-W = 1920  # Ширина окна
-H = 1080  # Высота окна
-display = (W, H)
+display = (WIN_WIDTH, WIN_HEIGHT)
 surf = pygame.Surface((1000, 800))
-bg_color = "#000000"
 fps = pygame. time.Clock()
 x1, y1 = 0, 0
 current_bullets = 10
@@ -41,31 +36,31 @@ def draw_level(screen):
     global x1, y1
     for row in levels[num_of_level]:
         for col in row:
-            if col == "-":
+            if col == PLATFORM:
                 Platform((platform_group, all_sprites), col, x, y)
 
-            elif col == "1":
+            elif col == SPIKES:
                 Spikes((spike_group, all_sprites), x, y)
 
-            elif col == "2":
+            elif col == MOBS:
                 Mob((enemy_group, all_sprites), x, y)
 
-            elif col == "3":
+            elif col == TREASURE:
                 Platform((treasure_group, all_sprites), col, x, y)
 
-            elif col == "4":
+            elif col == LASER_RIGHT:
                 Laser((laser_group, all_sprites), x, y, 0)
 
-            elif col == "8":
+            elif col == LASER_LEFT:
                 Laser((laser_group, all_sprites), x, y, 1)
 
-            elif col == "5":
+            elif col == LEVER:
                 Platform((lever_group, all_sprites), col, x, y)
 
-            elif col == "6":
+            elif col == PORTALS:
                 Portal((portal_group, all_sprites), x, y)
 
-            elif col == "x":
+            elif col == HERO:
                 x1, y1 = x, y
             x += PLATFORM_WIDTH
         y += PLATFORM_HEIGHT
@@ -138,12 +133,9 @@ def main():
         hero.update(platform_group, weapon_group, all_sprites)  # передвижение
         portal_group.update()
         enemy_group.update(hero)
-        for b in weapon_group:
-            b.update(enemy_group, platform_group, laser_group)
-        for ls in laser_group:
-            ls.update(hero, ray_group, all_sprites)
-        for r in ray_group:
-            r.update(platform_group, hero)
+        weapon_group.update(enemy_group, platform_group, laser_group)
+        laser_group.update(hero, ray_group, all_sprites)
+        ray_group.update(platform_group, hero)
         for e in all_sprites:
             surf.blit(e.image, (
                 e.rect.x - (0 if hero.rect.x < 500 else 900 if hero.rect.x > 1400 else hero.rect.x - 500),
